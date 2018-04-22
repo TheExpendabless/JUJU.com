@@ -7,11 +7,26 @@ import shlib
 import time
 import datetime
 import urllib.parse
+# The urllib2 module has been split across several modules in Python 3.0 named urllib.request and urllib.error.
+import urllib.request
 import logging
 
 logging.basicConfig(format='%(asctime)s - %(levelname)s - %(message)s', level=logging.INFO)
 BASE_URL = u"http://%s.lianjia.com/" % (settings.CITY)
 CITY = settings.CITY
+
+def GetNewsFlash():
+    logging.info("Get News Flash")
+    starttime = datetime.datetime.now()
+    try:
+        shlib.getNewsFlash()
+    except Exception as e:
+        logging.error(e)
+        logging.error("Fail")
+        pass
+    endtime = datetime.datetime.now()
+    logging.info("Run time: " + str(endtime - starttime))
+
 
 def GetHouseByCommunitylist(communitylist):
     logging.info("Get House Infomation")
