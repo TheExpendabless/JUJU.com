@@ -6,10 +6,43 @@ import misc
 import time
 import datetime
 import urllib.parse
+# The urllib2 module has been split across several modules in Python 3.0 named urllib.request and urllib.error.
+import urllib.request
 import logging
 
 logging.basicConfig(format='%(asctime)s - %(levelname)s - %(message)s', level=logging.INFO)
 BASE_URL = u"http://%s.lianjia.com/" % (settings.CITY)
+
+def getNewsFlash():
+    url_head = 'http://news.sh.fang.com/gdxw/2018-4-22/'
+    flash_data_source = []
+    for i in range(1,51):
+        url = url_head + str(i) + '.html'
+        source_code = misc.get_source_code(url)
+        soup = BeautifulSoup(source_code,'lxml')
+        if check_block(soup):
+            return
+        images = soup.select('div.infoBox-img.floatl > a > img')
+        titles = soup.select('div.infoBox-txt > h3 > a')
+        sources = soup.select('div.infoBox-txt > div > span:nth-of-type(1)')
+        times = soup.select('div.infoBox-txt > div > span:nth-of-type(2)')
+        j = 0
+        for img,title,source,time in zip(images,titles,sources,times):
+            flash_data_source.append({
+                'id': str(i)+str(j),
+                'link':title.get('href'),
+                'title':title.get_text(),
+                'source':source.get_text(),
+                'datetime':time.get_text(),
+                'img':img.get('src')
+            })
+            j = j+1
+            # print(img.get('src'),title.get('href'),source.get_text(),time.get_text(),sep='\n------------------------------\n')
+    # print(flash_data_source)
+    with model.database.atomic():
+        model.newsFlash.insert_many(flash_data_source).upsert().execute()
+    time.sleep(1)
+
 
 def get_house_percommunity(communityname):
     url = BASE_URL + u"ershoufang/rs" + urllib.parse.quote(communityname.encode('utf8')) + "/"
