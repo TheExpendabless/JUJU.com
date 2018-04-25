@@ -1,0 +1,105 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript" src="{% static "js/jquery.min.js" %}"></script>
+    <script type="text/javascript" src="{% static "js/index.js" %}"></script>
+    <link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
+	 <link rel="stylesheet" href="{% static "css/common.css" %}">
+</head>
+<body>
+
+    <nav class="navbar navbar-inverse navbar-fixed-top" id="navbar">
+        {% include "header.html" %}
+    </nav>
+<div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-2 col-md-2 sidebar" id="sidebar">
+                {% include "sidebar.html" %}
+            </div>
+            <div class="col-sm-10 col-md-10 col-md-offset-2 main">
+                <div class="row" id="alert">
+                </div>
+                <div class="jumbotron">
+                    <div class="container">
+                        <h2 class="text-center">上海二手房数据可视化分析</h2>
+                        <h5 class="text-center">-旨在提供历史房价数据，帮助用户更好的评估房产和预测未来的价格</h5>
+                        <div class="row">
+                            <div class="col-md-6 col-md-offset-3 col-sm-6 col-sm-offset-3 ">
+                                <form class="input-group" action="{% url 'illustration:detail' %}" method="post">
+                                    {% csrf_token %}
+                                    <input type="text" class="form-control autocomplete ui-autocomplete-input" name="community" placeholder="请输入小区名称（例如望京新城...）" autocomplete="off">
+                                    <span class="input-group-btn">
+                                        <input class="btn btn-primary" type="submit" value="搜索"/>
+                                    </span>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <i class="fa fa-search fa-fw"></i>数据查询
+                    </div>
+                    <div class="panel-body">
+                        <div class="col-sm-6 col-md-6">
+                            <h4 class="text-center"><a href="sellinfo.html">历史成交信息</a></h4>
+                            <h5 class="text-muted text-center">获取某个小区指定时间内的所有成交房源信息</h5>
+                            <img src="{% static 'images/sellinfo.png'%}"class="img-thumbnail">
+                        </div>
+                        <div class="col-sm-6 col-md-6">
+                            <h4 class="text-center"><a href="rentinfo.html">小区租房信息</a></h4>
+                            <h5 class="text-muted text-center">获取某个小区近一个季度出租房源价格信息.</h5>
+                            <img src="{% static 'images/rent.png'%}" class="img-thumbnail">
+                        </div>
+                        <div class="col-sm-6 col-md-6">
+                            <h4 class="text-center"><a href="community.html">商圈周边小区</a></h4>
+                            <h5 class="text-muted text-center">获取某个地段内的所有小区信息，例如望京里面所有小区...</h5>
+                            <img src="{% static 'images/community.png'%}" class="img-thumbnail">
+                        </div>
+                        <div class="col-sm-6 col-md-6">
+                            <h4 class="text-center"><a href="subway.html">地铁周边小区</a></h4>
+                            <h5 class="text-muted text-center">获取某个地铁站附近的小区信息，例如望京站附近的小区.</h5>
+                            <img src="{% static 'images/subway.png'%}" class="img-thumbnail">
+                        </div>
+                        <div class="col-sm-6 col-md-6">
+                            <h4 class="text-center"><a href="">小区周边信息</a></h4>
+                            <h5 class="text-muted text-center">获取某个小区物业信息以及周边设施，例如学校，交通.</h5>
+                            <img src="{% static 'images/map.png'%}" class="img-thumbnail">
+                        </div>
+                        <div class="col-sm-6 col-md-6">
+                            <h4 class="text-center"><a href="detail.html">小区房源信息</a></h4>
+                            <h5 class="text-muted text-center">获取某个小区内的所有成交房源信息，例如户型，面积，装修，朝向.</h5>
+                            <img src="{% static 'images/detail.png'%}" class="img-thumbnail">
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <i class="fa fa-question-circle-o fa-fw"></i>温馨提示
+                    </div>
+                    <div class="panel-body">
+                        <ul>
+                            <li>本站成交房源和小区信息来自于<a href="https://bj.lianjia.com/" target="_blank">北京链家网</a>和<a href="https://bj.5i5j.com/" target="_blank">北京我爱我家网</a>官方发布。</li>
+                            <li>链家网房源成交数据包含成交日期和真实价格，可以真实反应某段时间内的二手房价格趋势。</li>
+                            <li>本站网签数据来自于<a href="http://www.bjjs.gov.cn/" target="_blank">北京市住房和城乡建设委员会</a>官方发布。</li>
+                            <li>所有二手房成交都需要进行网签，所以网签数据具有真实性、权威性特征。可以通过网签K线，了解北京市二手房成交趋势。</li>
+                            <li>在二手房交易过程中，买卖双方签订合同后，卖方需要办理房产解压、买房需要办理资质审核，然后才能进行网签。所以网签相比于合同签订会有20天左右的延迟。</li>
+                            <li>特别声明：本网站数据仅供参考，如有任何问题，请依官方网站公布为准。</li>
+                        </ul>
+                        <ul>
+                    </ul></div>
+                </div>
+                <div id="chart-container">
+                    <canvas id="mycanvas"></canvas>
+                </div>
+                <footer class="footer" id="footer">
+                    {% include "footer.html" %}
+                </footer>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
