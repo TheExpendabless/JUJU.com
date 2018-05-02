@@ -1,0 +1,99 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript" src="{% static "js/jquery.min.js" %}"></script>
+    <script type="text/javascript" src="{% static "js/bootstrap.min.js" %}"></script>
+    <script type="text/javascript" src="{% static "js/search_community.js" %}"></script>
+    <script type="text/javascript" src="{% static "js/echarts.js" %}"></script>
+    <script src="https://cdn.bootcss.com/twbs-pagination/1.4.1/jquery.twbsPagination.js"></script>
+    <link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static "css/common.css" %}">
+</head>
+<body>
+{% include "header.html" %}
+<div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-2 col-md-2 sidebar" id="sidebar">
+                {% include "sidebar.html" %}
+            </div>
+            <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+                <div class="row">
+                    <div class="col-sm-3 col-sm-offset-1 col-md-6 col-md-offset-3">
+                        <div class="row" id="alert"></div>
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <center>
+                                    <label for="basic-url">获取成交房源详细分析</label>
+                                </center>
+                                <form class="input-group">
+                                    {% if kind == 'bizcircle' %}
+                                    <input id="bizcircle" type="text" class="form-control" placeholder="请输入商圈名称（例如五角场...）"/>
+                                    <span class="input-group-btn"><button class="btn btn-primary" type="button" onclick="getcommunitybybizcircle()">搜索</button></span>
+                                    {% else %}
+                                     <input id="station" type="text" class="form-control" placeholder="请输入地铁站（例如江湾镇...）"/>
+                                        <span class="input-group-btn"><button class="btn btn-primary" type="button" onclick="getcommunitybystation()">搜索</button></span>
+                                    {% endif %}
+
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.col-lg-6 -->
+                </div>
+                <!-- /.row -->
+                {% if kind == 'bizcircle' %}
+                <ul class="nav nav-tabs" id="navdistrict">
+                    <li role="presentation"><a>浦东</a></li>
+                    <li role="presentation"><a>闵行</a></li>
+                    <li role="presentation"><a>宝山</a></li>
+                    <li role="presentation"><a>徐汇</a></li>
+                    <li role="presentation"><a>普陀</a></li>
+                    <li role="presentation"><a>杨浦</a></li>
+                    <li role="presentation"><a>长宁</a></li>
+                    <li role="presentation"><a>松江</a></li>
+                    <li role="presentation"><a>嘉定</a></li>
+                    <li role="presentation"><a>黄浦</a></li>
+                    <li role="presentation"><a>静安</a></li>
+                    <li role="presentation"><a>闸北</a></li>
+                    <li role="presentation"><a>虹口</a></li>
+                    <li role="presentation"><a>青浦</a></li>
+                    <li role="presentation"><a>奉贤</a></li>
+                    <li role="presentation"><a>金山</a></li>
+                    <li role="presentation"><a>崇明</a></li>
+                    <li role="presentation"><a>上海周边</a></li>
+                </ul>
+                    <ul class="nav nav-tabs" id="nav1"></ul>
+                {% else %}
+                <ul class="nav nav-tabs" id="navsub">
+                    <li role="presentation" id="1"><a>1号线</a></li>
+                    <li role="presentation" id="2"><a>2号线</a></li>
+                    <li role="presentation" id="4"><a>4号线</a></li>
+                    <li role="presentation" id="5"><a>5号线</a></li>
+                    <li role="presentation" id="6"><a>6号线</a></li>
+                    <li role="presentation" id="7"><a>7号线</a></li>
+                    <li role="presentation" id="8"><a>8号线</a></li>
+                    <li role="presentation" id="9"><a>9号线</a></li>
+                    <li role="presentation" id="10"><a>10号线</a></li>
+                    <li role="presentation" id="10"><a>11号线</a></li>
+                    <li role="presentation" id="10"><a>12号线</a></li>
+                    <li role="presentation" id="13"><a>13号线</a></li>
+                    <li role="presentation" id="16"><a>16号线</a></li>
+                    <li role="presentation" id="10"><a>17号线</a></li>
+                    <li role="presentation" id="50"><a>浦江线</a></li>
+                </ul>
+                    <ul class="nav nav-tabs" id="nav2"></ul>
+                {% endif %}
+                <div id="chart-container"style="width: 1200px;height:550px;">
+                </div>
+                <table class="table" id="records_table"></table>
+                <center>
+                    <ul id="pagination-demo" class="pagination-sm"></ul>
+                </center>
+            </div>
+        </div>
+</div>
+</body>
+</html>

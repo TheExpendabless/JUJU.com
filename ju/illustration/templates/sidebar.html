@@ -5,14 +5,23 @@
     <title>Title</title>
 </head>
 <body>
-    <ul class="nav nav-sidebar">
-                    <li id="sellinfobar"><a href="sellinfo.html">历史成交信息</a></li>
-                    <li id="communitybar"><a href="community.html">商圈周边小区</a></li>
-                    <li id="detailbar"><a href="detail.html">小区详细信息</a></li>
-                    <li id="subwaybar"><a href="subway.html">地铁周边小区</a></li>
-                    <li id="volumnbar"><a href="volumn.html">网签数据分析</a></li>
-                    <li id="newsbar"><a href="news.html">楼市最新动态</a></li>
-                    <li id="rentinfo"><a href="rentinfo.html">小区租房信息</a></li>
+    <ul class="nav navbar-side">
+                    <li id="communitybar"><a data-toggle="collapse" data-target="#collapseList1">查找小区
+                        <span class="glyphicon glyphicon-chevron-down right" style="float:right;"></span></a>
+                        <ul class="nav navbar-side collapse" id="collapseList1"style="background-color: white;">
+                            <li id="bizcircle_community"><a href="{% url 'illustration:search_community'  'bizcircle'%}">商圈周边小区</a></li>
+                            <li id="subway_community"><a href="{% url 'illustration:search_community' 'subway'%}">地铁周边小区</a></li>
+                        </ul>
+                    </li>
+                    <li id="sellinfobar"><a data-toggle="collapse" data-target="#collapseList2">历史成交信息
+                    <span class="glyphicon glyphicon-chevron-down right"style="float:right;"></span></a>
+                        <ul class="nav navbar-side collapse" id="collapseList2"style="background-color: white;">
+                            <li id="bizcircle_community"><a href="{% url 'illustration:his_price'%}">成交房价分析</a></li>
+                            <li id="subway_community"><a href="{% url 'illustration:his_detail'%}">成交房源分析</a></li>
+                        </ul>
+                    </li>
+                    <li id="rentinfo"><a href="..\community_info">小区详细信息</a></li>
+
     </ul>
 </body>
 </html>

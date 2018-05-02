@@ -1,0 +1,810 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript" src="{% static "js/jquery.min.js" %}"></script>
+    <script type="text/javascript" src="{% static "js/bootstrap.min.js" %}"></script>
+    <script type="text/javascript" src="{% static "js/echarts.js" %}"></script>
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=IzQ1KSpFmtHDGsnw2IoszmvuCyXbGBjH"></script>
+    <link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static "css/common.css" %}">
+    <link rel="stylesheet" href="{% static "vendor/font-awesome/css/font-awesome.css" %}">
+</head>
+<body>
+        {% include "header.html" %}
+<div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-2 col-md-2 sidebar" id="sidebar">
+                {% include "sidebar.html" %}
+            </div>
+            <div class="col-sm-10 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+                <div class="row" id="alert"></div>
+                <div class="row">
+                    <div class="col-sm-12 col-md-12">
+                        <h2 class="page-header">小区信息 <button type="button" class="btn btn-default btn-sm" onclick="collect()">关注小区</button></h2>
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <i class="fa fa-info-circle fa-fw"></i> 基本信息
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class=" col-md-12 col-sm-12 ">
+                                <table class="table">
+                                    <tbody>
+                                        <tr>
+                                            <td style="width: 15%">小区名:</td>
+                                            <td id="title">{{ community.title }}</td>
+                                            <td style="width: 15%">行政区:</td>
+                                            <td id="district">{{ community.district }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="width: 15%">建造时间:</td>
+                                            <td id="year">{{ community.year }}</td>
+                                            <td style="width: 15%">建筑类型:</td>
+                                            <td id="housetype">{{ community.housetype }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="width: 15%">物业公司:</td>
+                                            <td id="service">{{ community.service }}</td>
+                                            <td style="width: 15%">开发商:</td>
+                                            <td id="company">{{ community.company }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="width: 15%">楼栋总数:</td>
+                                            <td id="building_num">{{ community.building_num }}</td>
+                                            <td style="width: 15%">房屋总数:</td>
+                                            <td id="house_num">{{ community.house_num }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="width: 15%">在售房源:</td>
+                                            <td id="onsale">{{ community.onsale }}</td>
+                                            <td style="width: 15%">在租房源:</td>
+                                            <td id="onrent">{{ community.onrent}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>物业费:</td>
+                                            <td colspan=3 id="cost">{{ community.cost }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>参考均价:</td>
+                                            <td colspan=3 id="price">{{ community.price }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>所在商圈:</td>
+                                            <td id="bizcircle">{{ community.bizcircle }}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12 col-mf-12">
+                        <h2 class="page-header">周边设施</h2>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-2 col-md-2">
+                        <div id="map-detail" class="panel panel-info">
+                            <div class="panel-heading">
+                                <div class="row">
+                                    <div class="col-xs-3">
+                                        <i class="fa fa-graduation-cap fa-4x"></i>
+                                    </div>
+                                    <div class="col-xs-9 text-right">
+                                        <div class="huge" id="school"></div>
+                                        <div>学校</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <a href="#school-button">
+                                <div class="panel-footer">
+                                    <span class="pull-left">更多信息</span>
+                                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-sm-2 col-md-2">
+                        <div id="map-detail" class="panel panel-success">
+                            <div class="panel-heading">
+                                <div class="row">
+                                    <div class="col-xs-3">
+                                        <i class="fa fa-hospital-o fa-4x"></i>
+                                    </div>
+                                    <div class="col-xs-9 text-right">
+                                        <div class="huge" id="hospital"></div>
+                                        <div>医院</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <a href="#hospital-button">
+                                <div class="panel-footer">
+                                    <span class="pull-left">更多信息</span>
+                                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-sm-2 col-md-2">
+                        <div id="map-detail" class="panel panel-primary">
+                            <div class="panel-heading">
+                                <div class="row">
+                                    <div class="col-xs-3">
+                                        <i class="fa fa-subway fa-4x"></i>
+                                    </div>
+                                    <div class="col-xs-9 text-right">
+                                        <div class="huge" id="subway"></div>
+                                        <div>地铁</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <a href="#subway-button">
+                                <div class="panel-footer">
+                                    <span class="pull-left">更多信息</span>
+                                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-sm-2 col-md-2">
+                        <div id="map-detail" class="panel panel-warning">
+                            <div class="panel-heading">
+                                <div class="row">
+                                    <div class="col-xs-3">
+                                        <i class="fa fa-shopping-cart fa-4x"></i>
+                                    </div>
+                                    <div class="col-xs-9 text-right">
+                                        <div class="huge" id="shopping"></div>
+                                        <div>购物</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <a href="#shopping-button">
+                                <div class="panel-footer">
+                                    <span class="pull-left">更多信息</span>
+                                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-sm-2 col-md-2">
+                        <div id="map-detail" class="panel panel-danger">
+                            <div class="panel-heading">
+                                <div class="row">
+                                    <div class="col-xs-3">
+                                        <i class="fa fa-building-o fa-4x"></i>
+                                    </div>
+                                    <div class="col-xs-9 text-right">
+                                        <div class="huge" id="building"></div>
+                                        <div>写字楼</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <a href="#building-button">
+                                <div class="panel-footer">
+                                    <span class="pull-left">更多信息</span>
+                                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-sm-2 col-md-2">
+                        <div id="map-detail" class="panel panel-info">
+                            <div class="panel-heading">
+                                <div class="row">
+                                    <div class="col-xs-3">
+                                        <i class="fa fa-bus fa-4x"></i>
+                                    </div>
+                                    <div class="col-xs-9 text-right">
+                                        <div class="huge" id="bus"></div>
+                                        <div>公交</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <a href="#bus-button">
+                                <div class="panel-footer">
+                                    <span class="pull-left">更多信息</span>
+                                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12 col-md-12">
+                        <h2 class="page-header">更多信息</h2>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6 col-md-6">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <i class="fa fa-map-marker fa-fw"></i>地理位置
+                                <div class="pull-right">
+                                    <a class="btn btn-info btn-xs" role="button" onclick="showResource('学校')" id="school-button">学校</a>
+                                    <a class="btn btn-success btn-xs" role="button" onclick="showResource('医院')" id="hospital-button">医院</a>
+                                    <a class="btn btn-primary btn-xs" role="button" onclick="showResource('地铁')" id="subway-button">地铁</a>
+                                    <a class="btn btn-warning btn-xs" role="button" onclick="showResource('购物')" id="shopping-button">购物</a>
+                                    <a class="btn btn-danger btn-xs" role="button" onclick="showResource('写字楼')" id="building-button">写字楼</a>
+                                    <a class="btn btn-info btn-xs" role="button" onclick="showResource('公交')" id="bus-button">公交</a>
+                                </div>
+                            </div>
+                            <div class="panel-body">
+                                <div id="allmap" style="width:100%;height:400px;zoom:0.8;"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-md-6">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <i class="fa fa-line-chart fa-fw"></i>历史均价走势
+                                <div class="pull-right" id="sell-button"></div>
+                            </div>
+                            <div class="panel-body" id="chart-unitprice"  style="width:100%;height:400px;zoom:0.8;">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="col-sm-6 col-md-6">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <i class="fa fa-pie-chart fa-fw"></i>小区详细信息
+                                <div class="pull-right" id="detail-button"></div>
+                            </div>
+                            <div class="panel-body" id="chart-detail"style="width:100%;height:400px;zoom:0.8;">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+<script type="text/javascript">
+    var myChart1 = echarts.init(document.getElementById('chart-unitprice'));
+    var myChart2 = echarts.init(document.getElementById('chart-detail'));
+    theLocation({{lng}},{{lat}});
+    count_building();
+    count_bus();
+    count_hospital();
+    count_school();
+    count_subway();
+    count_shopping();
+    get_unitpricebycommunity();
+    get_detailbycommunity();
+/*$.ajax({
+    type: "post",
+    url: appConfig.URL + "/api/user/collect/verify",
+    data: "community=" + community,
+    dataType: "json",
+    success: function(result) {
+        $('h2 button').text('取消关注');
+        $('h2 button').off('click').on('click', uncollect);
+    },
+    error: function(jqXHR, error, errorThrown) {
+        $('h2 button').text('关注小区');
+        $('h2 button').off('click').on('click', collect);
+    }
+});
+
+$.ajax({
+    type: "get",
+    url: appConfig.URL + "/api/community/title/" + community,
+    dataType: "json",
+    success: function(result) {
+        $("#title").append(result.data[0].Title);
+        $("#district").append(result.data[0].District);
+        $("#year").append(result.data[0].Year);
+        $("#housetype").append(result.data[0].Housetype);
+        $("#service").append(result.data[0].Service);
+        $("#company").append(result.data[0].Company);
+        $("#building_num").append(result.data[0].BuildingNum);
+        $("#house_num").append(result.data[0].HouseNum);
+        $("#onrent").append(result.data[0].Onrent);
+        $("#onsale").append(result.data[0].Onsale);
+        $("#cost").append(result.data[0].Cost);
+        $("#price").append(result.data[0].Price);
+        $("#bizcircle").append(result.data[0].Bizcircle);
+        get_neighbor_community(result.data[0].Bizcircle, result.data[0].Price, result.data[0].Title);
+    }
+});
+
+$.ajax({
+    type: "get",
+    url: appConfig.URL + "/api/rent/zone/" + community +
+        "?stime=" + stime +
+        "&etime=" + etime,
+    dataType: "json",
+    success: function(result) {
+        addBarGraph(result.data, community);
+        $("#rent-button").append("<a href=\"rentinfo.html?community=" + community + "\" class=\"btn btn-primary btn-xs\" role=\"button\">更多</a>")
+    }
+});
+
+$.ajax({
+    type: "get",
+    url: appConfig.URL + "/api/sell/unitprice/" + community,
+    dataType: "json",
+    success: function(result) {
+        addLineGraph(result.data, community);
+        $("#sell-button").append("<a href=\"sellinfo.html?community=" + community + "\" class=\"btn btn-primary btn-xs\" role=\"button\">更多</a>")
+    }
+});
+
+
+$.ajax({
+    type: "get",
+    url: appConfig.URL + "/api/sell/housetype/history/" + community,
+    dataType: "json",
+    success: function(result) {
+        addPieGraph(result.data, community);
+        $("#detail-button").append("<a href=\"detail.html?community=" + community + "\" class=\"btn btn-primary btn-xs\" role=\"button\">更多</a>")
+    },
+});
+*/
+// 百度地图API功能
+function theLocation(lng, lat) {
+     var map = new BMap.Map("allmap");
+    var new_point = new BMap.Point(lng, lat);
+    map.centerAndZoom(new BMap.Point(new_point), 15);
+    map.enableScrollWheelZoom(true); //开启鼠标滚轮缩放
+    map.clearOverlays();
+    var marker = new BMap.Marker(new_point); // 创建标注
+    map.addOverlay(marker); // 将标注添加到地图中
+    map.panTo(new_point);
+}
+/*
+function getResource(lng, lat, type) {
+    $.ajax({
+        type: "get", //请求方式
+        url: "//api.map.baidu.com/place/v2/search?query=" + type + "&location=" + lat + "," + lng + "&radius=1000&output=json&ak=RMsBxynsctluZhYpWMdv2wGQVFLcV5Za",
+        dataType: "jsonp",
+        success: function(data) {
+            if (type == "写字楼") {
+                $("#building").append(data.results.length);
+            }
+            if (type == "学校") {
+                $("#school").append(data.results.length);
+            }
+            if (type == "医院") {
+                $("#hospital").append(data.results.length);
+            }
+            if (type == "地铁") {
+                $("#subway").append(data.results.length);
+            }
+            if (type == "购物") {
+                $("#shopping").append(data.results.length);
+            }
+            if (type == "公交") {
+                $("#bus").append(data.results.length);
+            }
+
+        },
+        error: function(jqXHR, error, errorThrown) {
+            if (jqXHR.status && jqXHR.status == 400) {
+                console.log(jqXHR.responseText);
+
+            } else {
+                console.log("Something went wrong");
+            }
+        }
+
+    });
+}
+
+function addBarGraph(data, input) {
+    var x = [];
+    var y = [];
+
+    for (var i in data) {
+        x.push(data[i]["Zone"]);
+        y.push(data[i]["Price"]);
+    }
+
+    var chartdata = {
+        labels: x,
+        datasets: [{
+            label: input,
+            backgroundColor: 'rgba(151,187,205,0.5)',
+            borderColor: 'rgba(151,187,205,1)',
+            hoverBackgroundColor: 'rgba(200, 200, 200, 1)',
+            hoverBorderColor: 'rgba(200, 200, 200, 1)',
+            data: y
+        }]
+    };
+
+    var chartOptions = {
+        scales: {
+            yAxes: [{
+                display: true,
+                ticks: {
+                    suggestedMin: 0, // minimum will be 0, unless there is a lower value.
+                }
+            }]
+        }
+    };
+
+    $('#rentcanvas').remove();
+    $('#chart-rent').append('<canvas id="rentcanvas"></canvas>');
+
+    var ctx = $("#rentcanvas");
+
+    var barGraph = new Chart(ctx, {
+        type: "bar",
+        data: chartdata,
+        options: chartOptions,
+    });
+}
+*/
+function count_school(){
+    var mPoint = new BMap.Point({{ lng }}, {{ lat }});
+    var local=new BMap.LocalSearch(mPoint);
+    local.searchNearby('学校',mPoint,1000);
+    local.setSearchCompleteCallback(function(){
+                localResult = local.getResults();
+                var school=localResult.getCurrentNumPois();
+                $('#school').append(school);
+        });
+}
+function count_hospital(){
+    var mPoint = new BMap.Point({{ lng }}, {{ lat }});
+    var local=new BMap.LocalSearch(mPoint);
+    local.searchNearby('医院',mPoint,1000);
+    local.setSearchCompleteCallback(function(){
+                localResult = local.getResults();
+                var hospital=localResult.getCurrentNumPois();
+                $('#hospital').append(hospital);
+        });
+}
+function count_subway(){
+    var mPoint = new BMap.Point({{ lng }}, {{ lat }});
+    var local=new BMap.LocalSearch(mPoint);
+    local.searchNearby('地铁',mPoint,1000);
+    local.setSearchCompleteCallback(function(){
+                localResult = local.getResults();
+                var subway=localResult.getCurrentNumPois();
+                $('#subway').append(subway);
+        });
+}
+function count_shopping(){
+    var mPoint = new BMap.Point({{ lng }}, {{ lat }});
+    var local=new BMap.LocalSearch(mPoint);
+    local.searchNearby('购物',mPoint,1000);
+    local.setSearchCompleteCallback(function(){
+                localResult = local.getResults();
+                var shopping=localResult.getCurrentNumPois();
+                $('#shopping').append(shopping);
+        });
+}
+function count_building(){
+    var mPoint = new BMap.Point({{ lng }}, {{ lat }});
+    var local=new BMap.LocalSearch(mPoint);
+    local.searchNearby('写字楼',mPoint,1000);
+    local.setSearchCompleteCallback(function(){
+                localResult = local.getResults();
+                var building=localResult.getCurrentNumPois();
+                $('#building').append(building);
+        });
+}
+function count_bus(){
+    var mPoint = new BMap.Point({{ lng }}, {{ lat }});
+    var local=new BMap.LocalSearch(mPoint);
+    local.searchNearby('公交',mPoint,1000);
+    local.setSearchCompleteCallback(function(){
+                localResult = local.getResults();
+                var bus=localResult.getCurrentNumPois();
+                $('#bus').append(bus);
+        });
+}
+function showResource(type) {
+    var map = new BMap.Map("allmap");
+            var mPoint = new BMap.Point({{ lng }}, {{ lat }});
+            map.enableScrollWheelZoom();
+            map.centerAndZoom(mPoint, 15);
+
+            var marker = new BMap.Marker(mPoint); // 创建标注
+            map.addOverlay(marker);
+
+            var circle = new BMap.Circle(mPoint, 1000, { fillColor: "blue", strokeWeight: 1, fillOpacity: 0.3, strokeOpacity: 0.3 });
+            map.addOverlay(circle);
+            var local = new BMap.LocalSearch(map, { renderOptions: { map: map, autoViewport: false } });
+            local.searchNearby(type, mPoint, 1000);
+}
+function get_unitpricebycommunity(){
+        var community="{{ community.title }}";
+    $.ajax({
+            type: "post", //请求方式
+            url: "../community_hisprice/", //地址，就是json文件的请求路径
+            data: {'community':community},
+            //url: "http://localhost/community/bizcircle/" + input,
+            //数据类型可以为 text xml json  script  jsonp
+            success: function (result) {
+                result = JSON.parse(result);
+                //返回的参数就是 action里面所有的有get和set方法的参数
+                if (result.length == 0) {
+                    $("#alert").html("<div class=\"alert alert-danger text-center\" role=\"alert\" id=\"alert\">没有找到该小区的成交记录<button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button></div>")
+                } else {
+                    addGraph1(result,community)
+                    $("#sell-button").append("<a href=\"..\\his_price?community=" + community + "\" class=\"btn btn-primary btn-sm\" role=\"button\">更多</a>")
+                }
+            },
+        })
+}
+function addGraph1(data,location){
+        myChart1.clear();
+            var unitprice = [];
+            var dealdate = [];
+            for (var i = 0; i < data.length; i++) {
+                unitprice.push(data[i].unitprice);
+                dealdate.push(data[i].dealdate);
+            }
+            // 指定图表的配置项和数据
+            var option = {
+                backgroundColor: '#2c343c',
+                title: {
+                    text: '【'+location+'】历史房价走势',
+                    textStyle: {
+            color: '#ccc'
+        }
+                },
+                tooltip: { show: true,},
+                xAxis: {
+                    data:dealdate,
+                    axisLabel: {
+                    }
+                },
+                grid: {
+                    left: '3%',
+                    right: '4%',
+                    bottom: '3%',
+                    containLabel: true
+                },
+                yAxis: {min:10000},
+                series: [{
+                    name: '单价',
+                    type: 'line',
+                    data: unitprice,
+                }]
+            };
+            // 使用刚指定的配置项和数据显示图表。
+            myChart1.setOption(option);
+}
+function get_detailbycommunity(){
+         var community="{{ community.title }}";
+    $.ajax({
+            type: "post", //请求方式
+            url: "../community_hisdetail/", //地址，就是json文件的请求路径
+            data: {'community':community},
+            //url: "http://localhost/community/bizcircle/" + input,
+            //数据类型可以为 text xml json  script  jsonp
+            success: function (result) {
+                result = JSON.parse(result);
+                //返回的参数就是 action里面所有的有get和set方法的参数
+                if (result.length == 0) {
+                    $("#alert").html("<div class=\"alert alert-danger text-center\" role=\"alert\" id=\"alert\">没有找到该小区的成交记录<button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button></div>")
+                } else {
+                    addGraph2(result,community)
+                    $("#detail-button").append("<a href=\"..\\his_detail?community=" + community + "\" class=\"btn btn-primary btn-sm\" role=\"button\">更多</a>")
+                }
+            },
+        })
+    }
+    function addGraph2(data,location){
+            myChart2.clear();
+            var houseinfo=[];
+            var housetype_count;
+            var housetype;
+            for (var i = 0; i < data.length; i++) {
+                housetype_count=data[i].housetype__count;
+                housetype=data[i].housetype;
+                houseinfo.push({value:housetype_count,name:housetype});
+            }
+
+            // 指定图表的配置项和数据
+            option = {
+    backgroundColor: '#2c343c',
+    visualMap: {
+        show: false,
+        min: -5,
+        max: 20,
+        inRange: {
+            colorLightness: [0, 1]
+        }
+    },
+                title: {
+        text: '房源信息',
+        left: 'center',
+        top: 20,
+        textStyle: {
+            color: '#ccc'
+        }
+    },
+    tooltip:{show: true},
+    series : [
+        {
+            name: '房源信息',
+            type: 'pie',
+            radius: '55%',
+            data:houseinfo,
+            roseType: 'angle',
+            label: {
+                normal: {
+                    textStyle: {
+                        color: 'rgba(255, 255, 255, 0.3)'
+                    }
+                }
+            },
+            labelLine: {
+                normal: {
+                    lineStyle: {
+                        color: 'rgba(255, 255, 255, 0.3)'
+                    }
+                }
+            },
+            color:['#c23531', '#11659a','#428675','#74759b','#62102e','#dfecd5'],
+            itemStyle: {
+                normal: {
+                    shadowBlur: 200,
+                    shadowColor: 'rgba(0, 0, 0, 0.5)'
+                }
+            }
+        }
+    ]
+};
+            // 使用刚指定的配置项和数据显示图表。
+            myChart2.setOption(option);
+}
+/*
+function addLineGraph(data, input) {
+    var x = [];
+    var y = [];
+
+    for (var i in data) {
+        x.push(data[i]["Time"]);
+        y.push(data[i]["Unitprice"]);
+    }
+
+    var chartdata = {
+        labels: x,
+        datasets: [{
+            label: input,
+            backgroundColor: 'rgba(151,187,205,0.5)',
+            borderColor: 'rgba(151,187,205,1)',
+            hoverBackgroundColor: 'rgba(200, 200, 200, 1)',
+            hoverBorderColor: 'rgba(200, 200, 200, 1)',
+            data: y
+        }]
+    };
+
+    $('#unitpricecanvas').remove();
+    $('#chart-unitprice').append('<canvas id="unitpricecanvas"></canvas>');
+
+    var ctx = $("#unitpricecanvas");
+
+    var barGraph = new Chart(ctx, {
+        type: "line",
+        data: chartdata,
+    });
+}
+
+function addPieGraph(data, input) {
+    var x = [];
+    var y = [];
+    var coloR = [];
+
+    var dynamicColors = function() {
+        var r = Math.floor(Math.random() * 255);
+        var g = Math.floor(Math.random() * 255);
+        var b = Math.floor(Math.random() * 255);
+        return "rgb(" + r + "," + g + "," + b + ")";
+    };
+
+    for (var i in data) {
+        x.push(data[i]["Type"]);
+        y.push(data[i]["Total"]);
+        coloR.push(dynamicColors());
+    }
+
+    var chartdata = {
+        labels: x,
+        datasets: [{
+            label: input,
+            backgroundColor: coloR,
+            borderColor: 'rgba(151,187,205,1)',
+            hoverBackgroundColor: 'rgba(200, 200, 200, 1)',
+            hoverBorderColor: 'rgba(200, 200, 200, 1)',
+            data: y
+        }]
+    };
+
+    $('#detailcanvas').remove();
+    $('#chart-detail').append('<canvas id="detailcanvas"></canvas>');
+
+    var ctx = $("#detailcanvas");
+
+    var barGraph = new Chart(ctx, {
+        type: "pie",
+        data: chartdata,
+    });
+}
+
+function get_neighbor_community(bizcircle, price, community) {
+    $.ajax({
+        type: "get",
+        url: appConfig.URL + "/api/community/bizcircle/info/" + bizcircle,
+        dataType: "json",
+        success: function(result) {
+            var data = filter_community(result, price, community)
+            $.each(data, function(i, item) {
+                $('#community-list').append("<tr><td><a href='map.html?community=" + item.Title + "'>" + item.Title +
+                    "</td><td>" + item.Price +
+                    "</td><td>" + item.Year +
+                    "</td><td>" + item.Onsale + "</td></tr>")
+            });
+        },
+
+    });
+}
+
+function filter_community(data, price, title) {
+    var result = [];
+    $.each(data.data, function(i, item) {
+        if (Math.abs(item.Price - price) < 10000 && item.Onsale > 0 && item.Title != title) {
+            result.push(item);
+        }
+    });
+    return result.slice(0, 5)
+}
+
+function collect() {
+    var community = url.searchParams.get("community");
+    $.ajax({
+        type: "post",
+        url: appConfig.URL + "/api/user/collect",
+        data: "community=" + community,
+        dataType: "json",
+        　　　　success: function(result) {
+            $('h2 button').text('取消关注');
+            $('h2 button').off('click').on('click', uncollect);
+        },
+        error: function(jqXHR, error, errorThrown) {
+            if (jqXHR.status && jqXHR.status == 403) {
+                $("#alert").html("<div class=\"alert alert-danger text-center\" role=\"alert\" id=\"alert\">登录后可关注<button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button></div>")
+            }
+        }
+    });
+}
+
+function uncollect() {
+    var community = url.searchParams.get("community");
+    $.ajax({
+        type: "post",
+        url: appConfig.URL + "/api/user/collect/cancel",
+        data: "community=" + community,
+        dataType: "json",
+        　　　　success: function(result) {
+            $('h2 button').text('关注小区');
+            $('h2 button').off('click').on('click', collect);
+        },
+        error: function(jqXHR, error, errorThrown) {
+            if (jqXHR.status && jqXHR.status == 400) {
+                $("#alert").html("<div class=\"alert alert-danger text-center\" role=\"alert\" id=\"alert\">登录后可关注<button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button></div>")
+            }
+        }
+    });
+}*/
+</script>

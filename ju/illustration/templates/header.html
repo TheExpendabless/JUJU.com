@@ -5,6 +5,7 @@
     <title>Title</title>
 </head>
 <body>
+<nav class="navbar navbar-inverse navbar-fixed-top" id="navbar">
       <div class="container-fluid">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-right" aria-expanded="false" aria-controls="navbar">
@@ -16,12 +17,22 @@
                 <a class="navbar-brand" href="{% url 'illustration:index' %}">图说数据</a>
             </div>
             <div id="navbar-right" class="navbar-collapse collapse">
+                {% if not request.user.is_authenticated %}
                 <ul class="nav navbar-nav navbar-right" id="nav-right">
                     <li><a href="{% url 'illustration:index' %}">首页</a></li>
                     <li><a href="{% url 'illustration:register' %}" id="register">注册</a></li>
                     <li><a href="{% url 'illustration:login' %}" id="login">登录</a></li>
                 </ul>
+                {% else %}
+                <ul class="nav navbar-nav navbar-right" id="nav-right">
+                    <li><a href="{% url 'illustration:index' %}">首页</a></li>
+                    <li><a href="{% url 'illustration:userinfo' %}" id="userinfo">{{ request.user.username }}</a></li>
+                    <li><a href="{% url 'illustration:settings' %}" id="settings">设置</a></li>
+                    <li><a href="{% url 'illustration:logout' %}" id="logout">注销</a></li>
+                </ul>
+                {% endif %}
             </div>
       </div>
+</nav>
 </body>
 </html>

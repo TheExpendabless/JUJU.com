@@ -1,0 +1,240 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript" src="{% static "js/jquery.min.js" %}"></script>
+	<script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
+	<script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="{% static "js/echarts.js" %}"></script>
+    <link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static "css/common.css" %}">
+    <link rel="stylesheet" href="{% static "vendor/font-awesome/css/font-awesome.css" %}">
+</head>
+<body>
+        {% include "header.html" %}
+<div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-2 col-md-2 sidebar" id="sidebar">
+                {% include "sidebar.html" %}
+            </div>
+            <div class="col-sm-10 col-md-10 col-md-offset-2 main">
+                <div class="row" id="alert">
+                </div>
+                <div class="jumbotron">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-6 col-md-offset-3 col-sm-6 col-sm-offset-3 ">
+                                <div class="input-group">
+                                    {% csrf_token %}
+                                    <input type="text" class="form-control autocomplete ui-autocomplete-input" id="community" placeholder="请输入小区名称（例如财大公寓...）" autocomplete="off">
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-primary" onclick="get_unitpricebycommunity()">搜索</button>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-md-offset-2"style="z-index: 100;">
+                <div class="btn-group">
+
+                        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"id="region">不限区域
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu" role="menu"style="min-width: 350px;">
+                            <li>
+                                <a style="display: inline"onclick="init()">不限区域</a><a style="display: inline"onclick="change(this)">黄浦</a><a style="display: inline"onclick="change(this)">长宁</a><a style="display: inline"onclick="change(this)">徐汇</a>
+                                <a style="display: inline"onclick="change(this)">普陀</a><a style="display: inline"onclick="change(this)">静安</a>
+                            </li>
+                            <li>
+                                <a style="display: inline"onclick="change(this)">虹口</a><a style="display: inline"onclick="change(this)">杨浦</a><a style="display: inline"onclick="change(this)">宝山</a>
+                                <a style="display: inline"onclick="change(this)">闵行</a><a style="display: inline"onclick="change(this)">浦东</a>
+                            </li>
+                            <li>
+                                <a style="display: inline"onclick="change(this)">嘉定</a><a style="display: inline"onclick="change(this)">松江</a><a style="display: inline"onclick="change(this)">奉贤</a>
+                                <a style="display: inline"onclick="change(this)">青浦</a><a style="display: inline"onclick="change(this)">金山</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div id="chart-container"style="width: 1200px;height:550px;border:solid 1px red;">
+                </div>
+            </div>
+        </div>
+</div>
+</body>
+</html>
+<script type="text/javascript">
+    var myChart = echarts.init(document.getElementById('chart-container'));
+$(document).ready(function(){
+
+    var url = new URL(window.location.href);
+    var community = url.searchParams.get("community");
+    if(community){
+        $('#community').val(community);
+        get_unitpricebycommunity();
+    }
+    else{
+    init_Graph();
+    }
+});
+
+function init_Graph() {
+            var unitprice = [];
+           {% for unitprice_info in unitprice_infos %}
+               unitprice.push({{ unitprice_info.avgprice}});
+           {% endfor %}
+            // 指定图表的配置项和数据
+            var option = {
+                backgroundColor: '#2c343c',
+                title: {
+                    text: '上海历史房价走势',
+                    textStyle: {
+            color: '#ccc'
+        }
+                },
+                tooltip: {},
+                legend: {
+                    data: ['单价'],
+                    textStyle: {
+            color: '#ccc'
+        }
+                },
+                xAxis: {
+                    data:['2017-01', '2017-02', '2017-03', '2017-04', '2017-05', '2017-06', '2017-07', '2017-08', '2017-09','2017-10', '2017-11', '2017-12',
+              '2018-01', '2018-02', '2018-03'],
+                    axisLabel: {
+                        interval:0,
+                    }
+                },
+                grid: {
+                    left: '3%',
+                    right: '4%',
+                    bottom: '3%',
+                    containLabel: true
+                },
+                 tooltip: { //弹窗组件
+                show: true,
+            },
+                toolbox: { //可视化的工具箱
+                show: true,
+                feature: {
+                    dataView: { //数据视图
+                        show: true
+                    },
+                    restore: { //重置
+                        show: true
+                    },
+                    dataZoom: { //数据缩放视图
+                        show: true
+                    },
+                    saveAsImage: {//保存图片
+                        show: true
+                    },
+                    magicType: {//动态类型切换
+                        type: ['bar', 'line']
+                    }
+                }
+            },
+                yAxis: {min:35000,},
+                series: [{
+                    name: '单价',
+                    type: 'bar',
+                    data: unitprice,
+                }]
+            };
+            // 使用刚指定的配置项和数据显示图表。
+            myChart.setOption(option);
+    }
+function get_unitpricebycommunity(){
+        var community=$('#community').val();
+    $.ajax({
+            type: "post", //请求方式
+            url: "../community_hisprice/", //地址，就是json文件的请求路径
+            data: {'community':community},
+            //url: "http://localhost/community/bizcircle/" + input,
+            //数据类型可以为 text xml json  script  jsonp
+            success: function (result) {
+                result = JSON.parse(result);
+                //返回的参数就是 action里面所有的有get和set方法的参数
+                if (result.length == 0) {
+                    $("#alert").html("<div class=\"alert alert-danger text-center\" role=\"alert\" id=\"alert\">没有找到该小区的成交记录<button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button></div>")
+                } else {
+                    addGraph(result,community)
+                }
+            },
+        })
+}
+function get_unitpricebydistrict(district){
+    $.ajax({
+            type: "post", //请求方式
+            url: "../district_hisprice/", //地址，就是json文件的请求路径
+            data: {'district':district},
+            //url: "http://localhost/community/bizcircle/" + input,
+            //数据类型可以为 text xml json  script  jsonp
+            success: function (result) {
+                result = JSON.parse(result);
+                //返回的参数就是 action里面所有的有get和set方法的参数
+                if (result.length == 0) {
+                    $("#alert").html("<div class=\"alert alert-danger text-center\" role=\"alert\" id=\"alert\">没有找到该小区的成交记录<button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button></div>")
+                } else {
+                    addGraph(result,district)
+                }
+            },
+        })
+}
+function addGraph(data,location){
+        myChart.clear();
+            var unitprice = [];
+            var dealdate = [];
+            for (var i = 0; i < data.length; i++) {
+                unitprice.push(data[i].unitprice);
+                dealdate.push(data[i].dealdate);
+            }
+            // 指定图表的配置项和数据
+            var option = {
+                backgroundColor: '#2c343c',
+                title: {
+                    text: '【'+location+'】历史房价走势',
+                    textStyle: {
+            color: '#ccc'
+        }
+                },
+                tooltip: { show: true,},
+                legend: {
+                    data: ['单价']
+                },
+                xAxis: {
+                    data:dealdate,
+                    axisLabel: {
+                    }
+                },
+                grid: {
+                    left: '3%',
+                    right: '4%',
+                    bottom: '3%',
+                    containLabel: true
+                },
+                yAxis: {min:10000},
+                series: [{
+                    name: '单价',
+                    type: 'line',
+                    data: unitprice,
+                }]
+            };
+            // 使用刚指定的配置项和数据显示图表。
+            myChart.setOption(option);
+}
+function init(){
+    $('#region').empty();
+    $('#region').append('不限区域'+"<span class=\"caret\"></span>");
+    init_Graph();
+}
+function change(element){
+    $('#region').empty();
+    $('#region').append(element.innerHTML+"<span class=\"caret\"></span>");
+    get_unitpricebydistrict(element.innerHTML);
+}
+</script>

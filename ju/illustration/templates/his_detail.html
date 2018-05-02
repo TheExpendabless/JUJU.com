@@ -1,0 +1,139 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript" src="{% static "js/jquery.min.js" %}"></script>
+    <script type="text/javascript" src="{% static "js/bootstrap.min.js" %}"></script>
+    <script type="text/javascript" src="{% static "js/echarts.js" %}"></script>
+    <link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static "css/common.css" %}">
+    <link rel="stylesheet" href="{% static "vendor/font-awesome/css/font-awesome.css" %}">
+</head>
+<body>
+        {% include "header.html" %}
+<div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-2 col-md-2 sidebar" id="sidebar">
+                {% include "sidebar.html" %}
+            </div>
+            <div class="col-sm-10 col-md-10 col-md-offset-2 main">
+                <div class="row" id="alert">
+                </div>
+                <div class="jumbotron">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-6 col-md-offset-3 col-sm-6 col-sm-offset-3 ">
+                                <div class="input-group">
+                                    {% csrf_token %}
+                                    <input type="text" class="form-control autocomplete ui-autocomplete-input" id="community" placeholder="请输入小区名称（例如财大公寓...）" autocomplete="off">
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-primary" onclick="get_detailbycommunity()">搜索</button>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="chart-container"style="width: 1200px;height:550px;">
+                </div>
+            </div>
+        </div>
+</div>
+</body>
+</html>
+<script type="text/javascript">
+    var myChart = echarts.init(document.getElementById('chart-container'));
+    $(document).ready(function(){
+    var url = new URL(window.location.href);
+    var community = url.searchParams.get("community");
+    if(community){
+        $('#community').val(community);
+        get_detailbycommunity();
+    }
+});
+    function get_detailbycommunity(){
+         var community=$('#community').val();
+    $.ajax({
+            type: "post", //请求方式
+            url: "../community_hisdetail/", //地址，就是json文件的请求路径
+            data: {'community':community},
+            //url: "http://localhost/community/bizcircle/" + input,
+            //数据类型可以为 text xml json  script  jsonp
+            success: function (result) {
+                result = JSON.parse(result);
+                //返回的参数就是 action里面所有的有get和set方法的参数
+                if (result.length == 0) {
+                    $("#alert").html("<div class=\"alert alert-danger text-center\" role=\"alert\" id=\"alert\">没有找到该小区的成交记录<button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button></div>")
+                } else {
+                    addGraph(result,community)
+                }
+            },
+        })
+    }
+    function addGraph(data,location){
+            myChart.clear();
+            var houseinfo=[];
+            var housetype_count;
+            var housetype;
+            for (var i = 0; i < data.length; i++) {
+                housetype_count=data[i].housetype__count;
+                housetype=data[i].housetype;
+                houseinfo.push({value:housetype_count,name:housetype});
+            }
+            // 指定图表的配置项和数据
+            option = {
+    backgroundColor: '#2c343c',
+    visualMap: {
+        show: false,
+        min: -5,
+        max: 20,
+        inRange: {
+            colorLightness: [0, 1]
+        }
+    },
+                title: {
+        text: '房源信息',
+        left: 'center',
+        top: 20,
+        textStyle: {
+            color: '#ccc'
+        }
+    },
+    tooltip:{show: true},
+    series : [
+        {
+            name: '房源信息',
+            type: 'pie',
+            radius: '55%',
+            data:houseinfo,
+            roseType: 'angle',
+            label: {
+                normal: {
+                    textStyle: {
+                        color: 'rgba(255, 255, 255, 0.3)'
+                    }
+                }
+            },
+            labelLine: {
+                normal: {
+                    lineStyle: {
+                        color: 'rgba(255, 255, 255, 0.3)'
+                    }
+                }
+            },
+            color:['#c23531', '#11659a','#428675','#74759b','#62102e','#dfecd5'],
+            itemStyle: {
+                normal: {
+                    shadowBlur: 200,
+                    shadowColor: 'rgba(0, 0, 0, 0.5)'
+                }
+            }
+        }
+    ]
+};
+            // 使用刚指定的配置项和数据显示图表。
+            myChart.setOption(option);
+}
+</script>
