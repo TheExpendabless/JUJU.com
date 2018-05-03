@@ -1,0 +1,190 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>JUJU.com</title>
+    <link rel="shortcut icon" href="{% static "assets/images/favicon.png"%}" >
+
+    <!-- Bootstrap -->
+    <link href="{% static "plugins/font-awesome/css/font-awesome.min.css"%}" rel="stylesheet">
+    <link href="{% static "plugins/slick/slick.css"%}" rel="stylesheet">
+    <link href="{% static "plugins/slick-nav/slicknav.css"%}" rel="stylesheet">
+    <link href="{% static "plugins/wow/animate.css"%}" rel="stylesheet">
+    <link href="{% static "assets/css/bootstrap.css"%}" rel="stylesheet">
+    <link href="{% static "assets/css/theme.css"%}" rel="stylesheet">
+</head>
+<body>
+<div id="page-loader">
+    <div class="loaders">
+        <img src="{% static "assets/images/loader/3.gif"%}" alt="First Loader">
+        <img src="{% static "assets/images/loader/4.gif"%}" alt="First Loader">
+    </div>
+</div>
+<header id="site-header">
+    <!--<div id="site-header-top">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-5">
+                    <div class="clearfix">
+                        <button class="btn btn-warning btn-lg header-btn visible-sm pull-right">List your Property for Free</button>
+                        <p class="timing-in-header">Open Hours: Monday to Saturday - 8am to 6pm</p>
+                    </div>
+                </div>
+                <div class="col-md-7">
+                    <div class="clearfix">
+                        <button class="btn btn-warning btn-lg header-btn hidden-sm">List your Property for Free</button>
+                        <div class="language-in-header">
+                            <i class="fa fa-globe"></i>
+                            <label for="language-dropdown"> Language:</label>
+                            <select name="currency" id="language-dropdown">
+                                <option value="ENG">ENG</option>
+                                <option value="AR">AR</option>
+                                <option value="UR">UR</option>
+                                <option value="NEO">NEO</option>
+                                <option value="AKA">AKA</option>
+                            </select>
+                        </div>
+                        <div class="currency-in-header">
+                            <i class="fa fa-flag"></i>
+                            <label for="currency-dropdown"> Currency: </label>
+                            <select name="currency" id="currency-dropdown">
+                                <option value="USD">USD</option>
+                                <option value="EUR">EUR</option>
+                                <option value="AOA">AOA</option>
+                                <option value="XCD">XCD</option>
+                                <option value="PKR">PKR</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>-->
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3">
+                <figure id="site-logo">
+                    <a href="index.html"><img src="{% static "assets/images/logo.png"%}" alt="Logo"></a><!--logo要改！！！！！！！！！-->
+                </figure>
+            </div>
+            <div class="col-md-6 col-sm-8">
+                <nav id="site-nav" class="nav navbar-default">
+                    <ul class="nav navbar-nav">
+                        <li><a href="{% url 'illustration:home' %}">首页</a></li>
+                        <li><a href="{% url 'illustration:index' %}">房源信息</a>  <!--链接要改！！！！！！！！！！！！！--></li>
+                        <li><a href="single-property.html">房价预测</a></li>
+                        <li><a href="blog-grid.html">最新资讯</a></li>
+                        <li>
+                            <a href="contact.html">联系我们</a>
+                        </li>
+                        <li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true">用户 <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="#">登录</a></li>
+                                <li><a href="#">注册</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+            <div class="col-md-3 col-sm-4">
+                <div class="contact-in-header clearfix">
+                    <i class="fa fa-mobile"></i>
+                    <span>
+                        Call Us Now
+                        <br>
+                    <strong>111 222 333 444</strong>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header><!--头部-->
+<div id="site-banner" class="text-center clearfix">
+    <div class="container">
+        <h1 class="title wow slideInLeft">联系我们</h1>
+        <ol class="breadcrumb wow slideInRight">
+            <li><a href="index.html">首页</a></li>
+            <li class="active">联系我们</li>
+        </ol>
+    </div>
+</div>
+<div id="contact-page" class="contact-page-var-one">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="contact-form-wrapper">
+                    <h3 class="entry-title">联系我们</h3>
+                    <div class="contents">
+                        <p>填写您的反馈意见和联系方式，我们将竭诚为您解决。<br>
+                        若您有合作或投资意向也欢迎与我们联系！</p>
+                    </div>
+                    <form action="form-handler.php" method="post" class="contact-form">
+                        <p class="form-author common">
+                            <input id="author" name="name" type="text" placeholder="您的名字 *" aria-required="true" required="required">
+                        </p>
+                        <p class="form-email common">
+                            <input id="email" name="email" type="text" placeholder="邮箱 *" aria-describedby="email-notes" aria-required="true" required="required">
+                        </p>
+                        <p class="form-phone common">
+                            <input id="phone" name="phone" type="text" placeholder="联系电话 *" aria-required="true" required="required" >
+                        </p>
+                        <p class="form-subject common">
+                            <input id="subject" name="subject" type="text" placeholder="主题">
+                        </p>
+                        <p class="form-comment">
+                            <textarea id="message" name="message" placeholder="意见和建议" cols="45" rows="7" ></textarea>
+                        </p>
+                        <p class="form-submit">
+                            <button type="submit" id="submit-button" class="submit-btn btn btn-default btn-lg btn-3d" data-hover="Post Comment">提交</button>
+                            <span id="ajax-loader"><i class="fa fa-spinner fa-pulse fa-2x fa-fw"></i><span class="sr-only">Loading...</span></span>
+                        </p>
+                        <div id="error-container"></div>
+                        <div id="message-container"></div>
+                    </form>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="contact-page-contents clearfix">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <i class="fa fa-map-marker"></i>
+                            <div class="contents">
+                                <h6 class="title">寄件地址</h6>
+                                <address>
+                                    上海市，杨浦区，国定路777号
+                                </address>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <i class="fa fa-phone"></i>
+                            <div class="contents">
+                                <h5 class="title">我们的联系方式</h5>
+                                <ul>
+                                    <li>Phone: 13167227669</li>
+                                    <li>Mail: liusihui236326@outlook.com</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="map-canvas"></div>
+            </div>
+        </div>
+    </div>
+</div>
+      <script src="{% static "assets/js/jquery.min.js"%}"></script>
+<script src="{% static "assets/js/bootstrap.min.js"%}"></script>
+<script src="{% static "plugins/slick-nav/jquery.slicknav.min.js"%}"></script>
+<script src="{% static "plugins/slick/slick.min.js"%}"></script>
+<script src="{% static "plugins/jquery-ui/jquery-ui.min.js"%}"></script>
+<script src="{% static "plugins/tweetie/tweetie.js"%}"></script>
+<script src="{% static "plugins/forms/jquery.form.min.js"%}"></script>
+<script src="{% static "plugins/forms/jquery.validate.min.js"%}"></script>
+<script src="{% static "plugins/modernizr/modernizr.custom.js"%}"></script>
+<script src="{% static "plugins/wow/wow.min.js"%}"></script>
+<script src="{% static "plugins/zoom/zoom.js"%}"></script>
+<script src="{% static "plugins/mixitup/mixitup.min.js"%}"></script>
+<script src="{% static "assets/js/theme.js"%}"></script>
+</body>
+</html>

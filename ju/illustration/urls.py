@@ -3,6 +3,8 @@ from django.urls import path,include
 from illustration import views
 app_name='illustration'
 urlpatterns = [
+    path('home/',views.home,name='home'),
+    path('contact/',views.contact,name='contact'),
     path('index/', views.index,name='index'),
     path('community_detail/', views.community_detail, name='community_detail'),
     path('register/', views.register,name='register'),

@@ -8,20 +8,19 @@
     <ul class="nav navbar-side">
                     <li id="communitybar"><a data-toggle="collapse" data-target="#collapseList1">查找小区
                         <span class="glyphicon glyphicon-chevron-down right" style="float:right;"></span></a>
-                        <ul class="nav navbar-side collapse" id="collapseList1"style="background-color: white;">
+                        <ul class="nav navbar-side collapse" id="collapseList1">
                             <li id="bizcircle_community"><a href="{% url 'illustration:search_community'  'bizcircle'%}">商圈周边小区</a></li>
                             <li id="subway_community"><a href="{% url 'illustration:search_community' 'subway'%}">地铁周边小区</a></li>
                         </ul>
                     </li>
                     <li id="sellinfobar"><a data-toggle="collapse" data-target="#collapseList2">历史成交信息
                     <span class="glyphicon glyphicon-chevron-down right"style="float:right;"></span></a>
-                        <ul class="nav navbar-side collapse" id="collapseList2"style="background-color: white;">
+                        <ul class="nav navbar-side collapse" id="collapseList2">
                             <li id="bizcircle_community"><a href="{% url 'illustration:his_price'%}">成交房价分析</a></li>
                             <li id="subway_community"><a href="{% url 'illustration:his_detail'%}">成交房源分析</a></li>
                         </ul>
                     </li>
                     <li id="rentinfo"><a href="..\community_info">小区详细信息</a></li>
-
     </ul>
 </body>
 </html>

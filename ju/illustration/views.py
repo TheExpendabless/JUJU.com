@@ -16,6 +16,10 @@ import requests
 import datetime
 
 # Create your views here.
+def home(request):
+    return render(request, 'home.html')
+def contact(request):
+    return render(request, 'contact.html')
 def index(request):
     return render(request,'index.html')
 def search_community(request,kind):

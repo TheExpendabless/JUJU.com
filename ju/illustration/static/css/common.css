@@ -1,7 +1,8 @@
-body {  padding-top: 70px; padding-bottom: 70px;}
+body {  padding-top: 85px; padding-bottom: 70px;}
+.navbar{padding-top:10px;height:70px;}
 .sidebar {
     position: fixed;
-    top: 51px;
+    top: 85px;
     bottom: 0;
     left: 0;
     z-index: 1000;
@@ -9,16 +10,27 @@ body {  padding-top: 70px; padding-bottom: 70px;}
     padding: 20px;
     overflow-x: hidden;
     overflow-y: auto;
-    background-color: #f5f5f5;
+    color:#eee;
+    background-color: #505457;
     border-right: 1px solid #eee;
+}
+.sidebar a{
+    color:#eee;
+}
+li a:hover{
+    color:#505457;
+}
+.jumbotron{
+   background-color: #505457;
+    color: #eee;
 }
 .main {
     padding-right: 40px;
     padding-left: 40px;
 }
 #collapseList1{
-    background-color:white;
+    background-color:#505457;
 }
 #collapseList2{
-    background-color:white;
+    background-color:#505457;
 }
