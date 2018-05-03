@@ -1,59 +1,17 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-<nav class="navbar navbar-default navbar-fixed-top" id="navbar">
-    <div class="container ">
-        <div class="row">
-            <div class="col-md-3">
-                <figure id="site-logo">
-                    <a href="index.html"><img src="{% static "assets/images/logo.png"%}" alt="Logo"></a><!--logo要改！！！！！！！！！-->
-                </figure>
-            </div>
-            <div class="col-md-6 col-sm-8">
-                <nav id="site-nav" class="nav navbar-default">
-                    <ul class="nav navbar-nav">
-                        <li><a href="{% url 'illustration:home' %}">首页</a></li>
-                        <li><a href="{% url 'illustration:index' %}">房源信息</a>  <!--链接要改！！！！！！！！！！！！！--></li>
-                        <li><a href="single-property.html">房价预测</a></li>
-                        <li><a href="blog-grid.html">最新资讯</a></li>
-                         <li>
-                            <a href="{% url 'illustration:contact' %}">联系我们</a>
-                        </li>
-                        {% if not request.user.is_authenticated %}
-                        <li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true">用户 <span class="caret"></span></a>
-                            <ul class="dropdown-menu">
-                                <li><a href="{% url 'illustration:login' %}" id="login">登录</a></li>
-                                <li><a href="{% url 'illustration:register' %}" id="register">注册</a></li>
-                            </ul>
-                        </li>
-                            {% else %}
-                        <li class="dropdown"> <a href="{% url 'illustration:userinfo' %}" id="userinfo" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true">{{ request.user.username }} <span class="caret"></span></a>
-                            <ul class="dropdown-menu">
-                                <li><a href="{% url 'illustration:settings' %}" id="settings">设置</a></li>
-                                <li><a href="{% url 'illustration:logout' %}" id="logout">注销</a></li>
-                            </ul>
-                        </li>
-                        {% endif %}
-                    </ul>
-                </nav>
-            </div>
-            <div class="col-md-3 col-sm-4">
-                <div class="contact-in-header clearfix">
-                    <i class="fa fa-mobile"></i>
-                    <span>
-                        Call Us Now
-                        <br>
-                    <strong>111 222 333 444</strong>
-                    </span>
-                </div>
-            </div>
-        </div>
-    </div>
-</nav>
-</body>
-</html>
+{% for article in articles %}
+                    <div class='col-md-4 col-sm-6 layout-item-wrap mix a1'>
+                        <article class="blog-post clearfix layout-item">
+                            <figure class="feature-image">
+                                <time class="updated btn btn-warning" datetime="2017-02-01T13:58Z">{{ article.datetime }}</time>
+                            </figure>
+                            <br>
+                            <br>
+                            <div class="post-contents clearfix">
+                                <h4 class="entry-title"><a href="{{ article.link }}">{{ article.title }}</a></h4>
+                                <div class="contents clearfix">
+                                    {{ article.img }}
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+                    {% endfor %}

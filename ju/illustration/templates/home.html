@@ -64,10 +64,14 @@
     </header>
     <div class="container">
         <div class="row">
-      <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6">
+      <div class="col-md-2 col-md-offset-1">
         <div class="media-object-default">
           <div class="media">
-            <div class="media-left"> <a href="#"> <img class="img-responsive img-rounded" src="{% static "images/100X100.gif"%}" alt="placeholder image"> </a> </div>
+            <div class="media-left">
+                <a href="{% url 'illustration:index'%}">
+                <img class="img-responsive img-rounded" src="{% static "images/图表预测表.png"%}" alt="placeholder image">
+                <h4 style="text-align: center;">图说数据</h4> </a></div>
+
             <!--<div id="func-contents1">
         <div class="container text-center">
                 <h3>房源信息</h3>
@@ -79,17 +83,19 @@
           </div>
         </div>
       </div>
-      <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6">
+      <div class="col-md-2 col-md-offset-2">
         <div class="media">
-          <div class="media-left"> <a href="#"> <img class="img-responsive img-rounded" src="{% static "images/100X100.gif"%}" alt="placeholder image"></a></div>
+          <div class="media-left"> <a href="#"> <img class="img-responsive img-rounded" src="{% static "images/智能.png"%}" alt="placeholder image">
+          <h4 style="text-align: center;">房价预测</h4></a></div>
           <!--<div class="media-body">
             <h4 class="media-heading">Heading 2</h4>
             Lorem ipsum dolor sit amet, consectetur adipisicing elit. A, odit, consequuntur, quae, at tempore nostrum perferendis corporis nam maxime tenetur iure facilis.</div>-->
         </div>
       </div>
-      <div class="col-lg-4 col-md-4 col-sm-6 hidden-sm hidden-xs">
+      <div class="col-md-2 col-md-offset-2">
         <div class="media">
-              <div class="media-left"> <a href="#"> <img class="img-responsive img-rounded" src="{% static "images/100X100.gif"%}" alt="placeholder image"></a></div>
+              <div class="media-left"> <a href="{% url 'illustration:news'%}"> <img class="img-responsive img-rounded" src="{% static "images/资讯.png"%}" alt="placeholder image">
+              <h4 style="text-align: center;">最新资讯</h4></a></div>
       <!--<div class="media-body">
             <h4 class="media-heading">Heading 3</h4>
             Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis, id, aut, officiis laboriosam a vero illo dolor asperiores provident quibusdam praesentium ipsum!</div>-->
@@ -105,7 +111,7 @@
     <header class="section-header home-section-header">
        <div class="container">
            <h2 class="wow slideInRight">最新资讯</h2>
-           <p class="wow slideInLeft"><a href="blog-grid.html
+           <p class="wow slideInLeft"><a href="{% url 'illustration:news'%}
           ">查看更多</a></p>
        </div>
     </header>
@@ -182,7 +188,7 @@
         </div>
     </div>
 </footer>
-<a href="#site-nav" id="scroll-top"><i class="fa fa-angle-up"></i></a>
+<a href="#top" id="scroll-top"><i class="fa fa-angle-up"></i></a>
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="{% static "assets/js/jquery.min.js"%}"></script>
 <script src="{% static "assets/js/bootstrap.min.js"%}"></script>

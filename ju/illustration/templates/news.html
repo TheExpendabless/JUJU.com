@@ -1,0 +1,137 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>JUJU.com</title>
+
+    <!-- Styles -->
+
+
+    <!-- favicon and touch icons -->
+    <link rel="shortcut icon" href="{% static "assets/images/favicon.png"%}" >
+
+    <!-- Bootstrap -->
+    <link href="{% static "plugins/font-awesome/css/font-awesome.min.css"%}" rel="stylesheet">
+    <link href="{% static "plugins/slick/slick.css"%}" rel="stylesheet">
+    <link href="{% static "plugins/slick-nav/slicknav.css"%}" rel="stylesheet">
+    <link href="{% static "plugins/wow/animate.css"%}" rel="stylesheet">
+    <link href="{% static "assets/css/bootstrap.css"%}" rel="stylesheet">
+    <link href="{% static "assets/css/theme.css"%}" rel="stylesheet">
+
+</head>
+<body>
+<div id="page-loader">
+    <div class="loaders">
+        <img src="{% static "assets/images/loader/3.gif"%}" alt="First Loader">
+        <img src="{% static "assets/images/loader/4.gif"%}" alt="First Loader">
+    </div>
+</div>
+<header id="site-header">
+    {% include "header.html" %}
+</header>
+  <div id="site-banner" class="text-center clearfix">
+        <div class="container">
+            <h1 class="title">最新资讯</h1>
+            <ol class="breadcrumb">
+                <li><a href="{% url 'illustration:home' %}">首页</a></li>
+                <li class="active">最新资讯</li>
+            </ol>
+        </div>
+    </div>
+    <div id="blog-listing" class="grid-style">
+        <header class="section-header text-center">
+            <div class="container">
+                <div class="pull-right">
+                    <p class="pull-left layout-view"> 查看方式: <i class="fa fa-th selected" data-layout="4"></i> <i class="fa fa-th-large" data-layout="6"></i><i class="fa fa-list-ul" data-layout="12"></i> </p>
+                </div>
+            </div>
+        </header>
+        <div class="container">
+            <div class="row">
+                <div id="filter-container">
+                    {% for article in articles %}
+                    <div class='col-md-4 col-sm-6 layout-item-wrap mix a1'>
+                        <article class="blog-post clearfix layout-item">
+                            <figure class="feature-image">
+                                <time class="updated btn btn-warning" datetime="2017-02-01T13:58Z">{{ article.datetime }}</time>
+                            </figure>
+                            <br>
+                            <br>
+                            <div class="post-contents clearfix">
+                                <h4 class="entry-title"><a href="{{ article.link }}">{{ article.title }}</a></h4>
+                                <div class="contents clearfix">
+                                    {{ article.img }}
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <a href="#top" id="scroll-top"><i class="fa fa-angle-up"></i></a>
+    </div>
+<footer id="footer">
+<div class="site-footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 col-sm-6">
+                <section class="widget about-widget clearfix">
+                    <h4 class="title hide">About Us</h4>
+                    <a class="footer-logo" href="#"><img src="assets/images/footer-logo.png" alt="Footer Logo"></a>
+                    <p>我们提供全面的历史成交信息查询、房价变化记录，您可以根据您的需要精确地查询信息、预测房价，满足您的购房、投资需求</p>
+                    <ul class="social-icons clearfix">
+                        <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                        <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+                        <li><a href="#"><i class="fa fa-pinterest"></i></a></li>
+                        <li><a href="#"><i class="fa fa-youtube-play"></i></a></li>
+                    </ul>
+                </section>
+            </div>
+            <div class="col-md-4 col-sm-6">
+                <section class="widget twitter-widget clearfix">
+                    <h4 class="title"></h4>
+                    <div id="twitter-feeds" class="clearfix"></div>
+                </section>
+            </div>
+            <div class="col-md-4 col-sm-6">
+                <section class="widget address-widget clearfix">
+                    <h4 class="title">平台支持中心</h4>
+                    <ul>
+                        <li><i class="fa fa-map-marker"></i> 上海市，杨浦区，国定路777号</li>
+                        <li><i class="fa fa-phone"></i>13167227669</li>
+						<li><i class="fa fa-envelope"></i>1098912568@qq.com</li>
+                        <li><i class="fa fa-clock-o"></i> 工作时间看心情</li>
+                    </ul>
+                </section>
+            </div>
+        </div>
+    </div>
+</div>
+    <div class="site-footer-bottom">
+        <div class="container">
+          <p class="copyright pull-left wow slideInRight">© 2018 Designed by <a href="#">The Expendables</a>. All rights reserved.</p>
+        </div>
+    </div>
+</footer>
+<a href="#top" id="scroll-top"><i class="fa fa-angle-up"></i></a>
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="{% static "assets/js/jquery.min.js"%}"></script>
+<script src="{% static "assets/js/bootstrap.min.js"%}"></script>
+<script src="{% static "plugins/slick-nav/jquery.slicknav.min.js"%}"></script>
+<script src="{% static "plugins/slick/slick.min.js"%}"></script>
+<script src="{% static "plugins/jquery-ui/jquery-ui.min.js"%}"></script>
+<script src="{% static "plugins/tweetie/tweetie.js"%}"></script>
+<script src="{% static "plugins/forms/jquery.form.min.js"%}"></script>
+<script src="{% static "plugins/forms/jquery.validate.min.js"%}"></script>
+<script src="{% static "plugins/modernizr/modernizr.custom.js"%}"></script>
+<script src="{% static "plugins/wow/wow.min.js"%}"></script>
+<script src="{% static "plugins/zoom/zoom.js"%}"></script>
+<script src="{% static "plugins/mixitup/mixitup.min.js"%}"></script>
+<script src="{% static "assets/js/theme.js"%}"></script>
+</body>
+</html>

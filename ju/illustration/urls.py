@@ -21,4 +21,5 @@ urlpatterns = [
     path('community_hisprice/',views.community_hisprice,name='community_hisprice'),
     path('community_hisdetail/',views.community_hisdetail,name='community_hisdetail'),
     path('district_hisprice/',views.district_hisprice,name='district_hisprice'),
+    path('news/',views.news,name='news'),
 ]

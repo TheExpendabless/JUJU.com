@@ -90,3 +90,6 @@ def district_hisprice(request):
     data = models.Sellinfo.objects.filter(district=district).exclude(unitprice='下载APP查看成交>').values('dealdate','unitprice').order_by('dealdate')
     data = json.dumps(list(data), cls=DjangoJSONEncoder, ensure_ascii=False)
     return HttpResponse(data)
+def news(request):
+    #从数据库获取新闻资讯返回
+    return render(request, 'news.html')

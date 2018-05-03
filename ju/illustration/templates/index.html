@@ -4,8 +4,6 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <script type="text/javascript" src="{% static "js/jquery.min.js" %}"></script>
-    <script type="text/javascript" src="{% static "js/bootstrap.min.js" %}"></script>
     <link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
 
     <!-- favicon and touch icons -->
@@ -18,8 +16,14 @@
     <link href="{% static "assets/css/theme.css"%}" rel="stylesheet">
     <link rel="stylesheet" href="{% static "css/common.css" %}">
 </head>
-<body class="fixed-nav sticky-footer">
-<header id="site-header"class="navbar-fixed-top">
+<body>
+<div id="page-loader">
+    <div class="loaders">
+        <img src="{% static "assets/images/loader/3.gif"%}" alt="First Loader">
+        <img src="{% static "assets/images/loader/4.gif"%}" alt="First Loader">
+    </div>
+</div>
+<header id="site-header">
         {% include "header.html" %}
 </header>
 <div class="container-fluid">
@@ -104,5 +108,18 @@
             </div>
         </div>
     </div>
+<script src="{% static "assets/js/jquery.min.js"%}"></script>
+<script src="{% static "assets/js/bootstrap.min.js"%}"></script>
+<script src="{% static "plugins/slick-nav/jquery.slicknav.min.js"%}"></script>
+<script src="{% static "plugins/slick/slick.min.js"%}"></script>
+<script src="{% static "plugins/jquery-ui/jquery-ui.min.js"%}"></script>
+<script src="{% static "plugins/tweetie/tweetie.js"%}"></script>
+<script src="{% static "plugins/forms/jquery.form.min.js"%}"></script>
+<script src="{% static "plugins/forms/jquery.validate.min.js"%}"></script>
+<script src="{% static "plugins/modernizr/modernizr.custom.js"%}"></script>
+<script src="{% static "plugins/wow/wow.min.js"%}"></script>
+<script src="{% static "plugins/zoom/zoom.js"%}"></script>
+<script src="{% static "plugins/mixitup/mixitup.min.js"%}"></script>
+<script src="{% static "assets/js/theme.js"%}"></script>
 </body>
 </html>

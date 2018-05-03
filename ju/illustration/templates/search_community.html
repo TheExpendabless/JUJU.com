@@ -22,11 +22,12 @@
                 {% include "sidebar.html" %}
             </div>
             <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-                <div class="row">
-                    <div class="col-sm-3 col-sm-offset-1 col-md-6 col-md-offset-3">
-                        <div class="row" id="alert"></div>
-                        <div class="panel panel-default">
-                            <div class="panel-body">
+            <div class="row" id="alert">
+                </div>
+                <div class="jumbotron">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-6 col-md-offset-3 col-sm-6 col-sm-offset-3 ">
                                 <center>
                                     <label for="basic-url">获取成交房源详细分析</label>
                                 </center>
@@ -43,7 +44,6 @@
                             </div>
                         </div>
                     </div>
-                    <!-- /.col-lg-6 -->
                 </div>
                 <!-- /.row -->
                 {% if kind == 'bizcircle' %}
