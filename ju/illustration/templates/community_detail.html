@@ -24,7 +24,7 @@
                 <div class="row" id="alert"></div>
                 <div class="row">
                     <div class="col-sm-12 col-md-12">
-                        <h2 class="page-header">小区信息 <button type="button" class="btn btn-default btn-sm" onclick="collect()">关注小区</button></h2>
+                        <h2 class="page-header">小区信息 <button type="button" class="btn btn-success btn-sm" onclick="collect()">关注小区</button></h2>
                     </div>
                 </div>
                 <div class="panel panel-default">
@@ -287,76 +287,7 @@
     count_shopping();
     get_unitpricebycommunity();
     get_detailbycommunity();
-/*$.ajax({
-    type: "post",
-    url: appConfig.URL + "/api/user/collect/verify",
-    data: "community=" + community,
-    dataType: "json",
-    success: function(result) {
-        $('h2 button').text('取消关注');
-        $('h2 button').off('click').on('click', uncollect);
-    },
-    error: function(jqXHR, error, errorThrown) {
-        $('h2 button').text('关注小区');
-        $('h2 button').off('click').on('click', collect);
-    }
-});
 
-$.ajax({
-    type: "get",
-    url: appConfig.URL + "/api/community/title/" + community,
-    dataType: "json",
-    success: function(result) {
-        $("#title").append(result.data[0].Title);
-        $("#district").append(result.data[0].District);
-        $("#year").append(result.data[0].Year);
-        $("#housetype").append(result.data[0].Housetype);
-        $("#service").append(result.data[0].Service);
-        $("#company").append(result.data[0].Company);
-        $("#building_num").append(result.data[0].BuildingNum);
-        $("#house_num").append(result.data[0].HouseNum);
-        $("#onrent").append(result.data[0].Onrent);
-        $("#onsale").append(result.data[0].Onsale);
-        $("#cost").append(result.data[0].Cost);
-        $("#price").append(result.data[0].Price);
-        $("#bizcircle").append(result.data[0].Bizcircle);
-        get_neighbor_community(result.data[0].Bizcircle, result.data[0].Price, result.data[0].Title);
-    }
-});
-
-$.ajax({
-    type: "get",
-    url: appConfig.URL + "/api/rent/zone/" + community +
-        "?stime=" + stime +
-        "&etime=" + etime,
-    dataType: "json",
-    success: function(result) {
-        addBarGraph(result.data, community);
-        $("#rent-button").append("<a href=\"rentinfo.html?community=" + community + "\" class=\"btn btn-primary btn-xs\" role=\"button\">更多</a>")
-    }
-});
-
-$.ajax({
-    type: "get",
-    url: appConfig.URL + "/api/sell/unitprice/" + community,
-    dataType: "json",
-    success: function(result) {
-        addLineGraph(result.data, community);
-        $("#sell-button").append("<a href=\"sellinfo.html?community=" + community + "\" class=\"btn btn-primary btn-xs\" role=\"button\">更多</a>")
-    }
-});
-
-
-$.ajax({
-    type: "get",
-    url: appConfig.URL + "/api/sell/housetype/history/" + community,
-    dataType: "json",
-    success: function(result) {
-        addPieGraph(result.data, community);
-        $("#detail-button").append("<a href=\"detail.html?community=" + community + "\" class=\"btn btn-primary btn-xs\" role=\"button\">更多</a>")
-    },
-});
-*/
 // 百度地图API功能
 function theLocation(lng, lat) {
      var map = new BMap.Map("allmap");
@@ -368,89 +299,6 @@ function theLocation(lng, lat) {
     map.addOverlay(marker); // 将标注添加到地图中
     map.panTo(new_point);
 }
-/*
-function getResource(lng, lat, type) {
-    $.ajax({
-        type: "get", //请求方式
-        url: "//api.map.baidu.com/place/v2/search?query=" + type + "&location=" + lat + "," + lng + "&radius=1000&output=json&ak=RMsBxynsctluZhYpWMdv2wGQVFLcV5Za",
-        dataType: "jsonp",
-        success: function(data) {
-            if (type == "写字楼") {
-                $("#building").append(data.results.length);
-            }
-            if (type == "学校") {
-                $("#school").append(data.results.length);
-            }
-            if (type == "医院") {
-                $("#hospital").append(data.results.length);
-            }
-            if (type == "地铁") {
-                $("#subway").append(data.results.length);
-            }
-            if (type == "购物") {
-                $("#shopping").append(data.results.length);
-            }
-            if (type == "公交") {
-                $("#bus").append(data.results.length);
-            }
-
-        },
-        error: function(jqXHR, error, errorThrown) {
-            if (jqXHR.status && jqXHR.status == 400) {
-                console.log(jqXHR.responseText);
-
-            } else {
-                console.log("Something went wrong");
-            }
-        }
-
-    });
-}
-
-function addBarGraph(data, input) {
-    var x = [];
-    var y = [];
-
-    for (var i in data) {
-        x.push(data[i]["Zone"]);
-        y.push(data[i]["Price"]);
-    }
-
-    var chartdata = {
-        labels: x,
-        datasets: [{
-            label: input,
-            backgroundColor: 'rgba(151,187,205,0.5)',
-            borderColor: 'rgba(151,187,205,1)',
-            hoverBackgroundColor: 'rgba(200, 200, 200, 1)',
-            hoverBorderColor: 'rgba(200, 200, 200, 1)',
-            data: y
-        }]
-    };
-
-    var chartOptions = {
-        scales: {
-            yAxes: [{
-                display: true,
-                ticks: {
-                    suggestedMin: 0, // minimum will be 0, unless there is a lower value.
-                }
-            }]
-        }
-    };
-
-    $('#rentcanvas').remove();
-    $('#chart-rent').append('<canvas id="rentcanvas"></canvas>');
-
-    var ctx = $("#rentcanvas");
-
-    var barGraph = new Chart(ctx, {
-        type: "bar",
-        data: chartdata,
-        options: chartOptions,
-    });
-}
-*/
 function count_school(){
     var mPoint = new BMap.Point({{ lng }}, {{ lat }});
     var local=new BMap.LocalSearch(mPoint);
@@ -566,6 +414,12 @@ function addGraph1(data,location){
                 xAxis: {
                     data:dealdate,
                     axisLabel: {
+                    },
+                    axisLine:{
+                        lineStyle:{
+                            color:'#ccc',
+                            width:1,//这里是为了突出显示加上的
+                        }
                     }
                 },
                 grid: {
@@ -574,7 +428,13 @@ function addGraph1(data,location){
                     bottom: '3%',
                     containLabel: true
                 },
-                yAxis: {min:10000},
+                yAxis: {min:10000,
+                axisLine:{
+                        lineStyle:{
+                            color:'#ccc',
+                            width:1,//这里是为了突出显示加上的
+                        }
+                    } },
                 series: [{
                     name: '单价',
                     type: 'line',
@@ -669,114 +529,13 @@ function get_detailbycommunity(){
             // 使用刚指定的配置项和数据显示图表。
             myChart2.setOption(option);
 }
-/*
-function addLineGraph(data, input) {
-    var x = [];
-    var y = [];
-
-    for (var i in data) {
-        x.push(data[i]["Time"]);
-        y.push(data[i]["Unitprice"]);
-    }
-
-    var chartdata = {
-        labels: x,
-        datasets: [{
-            label: input,
-            backgroundColor: 'rgba(151,187,205,0.5)',
-            borderColor: 'rgba(151,187,205,1)',
-            hoverBackgroundColor: 'rgba(200, 200, 200, 1)',
-            hoverBorderColor: 'rgba(200, 200, 200, 1)',
-            data: y
-        }]
-    };
-
-    $('#unitpricecanvas').remove();
-    $('#chart-unitprice').append('<canvas id="unitpricecanvas"></canvas>');
-
-    var ctx = $("#unitpricecanvas");
-
-    var barGraph = new Chart(ctx, {
-        type: "line",
-        data: chartdata,
-    });
-}
-
-function addPieGraph(data, input) {
-    var x = [];
-    var y = [];
-    var coloR = [];
-
-    var dynamicColors = function() {
-        var r = Math.floor(Math.random() * 255);
-        var g = Math.floor(Math.random() * 255);
-        var b = Math.floor(Math.random() * 255);
-        return "rgb(" + r + "," + g + "," + b + ")";
-    };
-
-    for (var i in data) {
-        x.push(data[i]["Type"]);
-        y.push(data[i]["Total"]);
-        coloR.push(dynamicColors());
-    }
-
-    var chartdata = {
-        labels: x,
-        datasets: [{
-            label: input,
-            backgroundColor: coloR,
-            borderColor: 'rgba(151,187,205,1)',
-            hoverBackgroundColor: 'rgba(200, 200, 200, 1)',
-            hoverBorderColor: 'rgba(200, 200, 200, 1)',
-            data: y
-        }]
-    };
-
-    $('#detailcanvas').remove();
-    $('#chart-detail').append('<canvas id="detailcanvas"></canvas>');
-
-    var ctx = $("#detailcanvas");
-
-    var barGraph = new Chart(ctx, {
-        type: "pie",
-        data: chartdata,
-    });
-}
-
-function get_neighbor_community(bizcircle, price, community) {
-    $.ajax({
-        type: "get",
-        url: appConfig.URL + "/api/community/bizcircle/info/" + bizcircle,
-        dataType: "json",
-        success: function(result) {
-            var data = filter_community(result, price, community)
-            $.each(data, function(i, item) {
-                $('#community-list').append("<tr><td><a href='map.html?community=" + item.Title + "'>" + item.Title +
-                    "</td><td>" + item.Price +
-                    "</td><td>" + item.Year +
-                    "</td><td>" + item.Onsale + "</td></tr>")
-            });
-        },
-
-    });
-}
-
-function filter_community(data, price, title) {
-    var result = [];
-    $.each(data.data, function(i, item) {
-        if (Math.abs(item.Price - price) < 10000 && item.Onsale > 0 && item.Title != title) {
-            result.push(item);
-        }
-    });
-    return result.slice(0, 5)
-}
 
 function collect() {
     var community = url.searchParams.get("community");
     $.ajax({
         type: "post",
-        url: appConfig.URL + "/api/user/collect",
-        data: "community=" + community,
+        url: "../user_collect",
+        data: {'community':community,'collect':true},
         dataType: "json",
         　　　　success: function(result) {
             $('h2 button').text('取消关注');
@@ -794,8 +553,8 @@ function uncollect() {
     var community = url.searchParams.get("community");
     $.ajax({
         type: "post",
-        url: appConfig.URL + "/api/user/collect/cancel",
-        data: "community=" + community,
+        url: "../user_collect",
+        data: {'community':community,'collect':false},
         dataType: "json",
         　　　　success: function(result) {
             $('h2 button').text('关注小区');
@@ -807,5 +566,5 @@ function uncollect() {
             }
         }
     });
-}*/
+}
 </script>

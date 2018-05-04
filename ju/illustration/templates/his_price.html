@@ -139,7 +139,13 @@ function init_Graph() {
                     }
                 }
             },
-                yAxis: {min:35000,},
+                yAxis: {min:35000,
+                axisLine:{
+                        lineStyle:{
+                            color:'#ccc',
+                            width:1,//这里是为了突出显示加上的
+                        }
+                    } },
                 series: [{
                     name: '单价',
                     type: 'bar',
@@ -210,7 +216,7 @@ function addGraph(data,location){
                 xAxis: {
                     data:dealdate,
                     axisLabel: {
-                    }
+                    },
                 },
                 grid: {
                     left: '3%',
@@ -218,7 +224,13 @@ function addGraph(data,location){
                     bottom: '3%',
                     containLabel: true
                 },
-                yAxis: {min:10000},
+                yAxis: {min:10000,
+                axisLine:{
+                        lineStyle:{
+                            color:'#ccc',
+                            width:1,//这里是为了突出显示加上的
+                        }
+                    } },
                 series: [{
                     name: '单价',
                     type: 'line',
