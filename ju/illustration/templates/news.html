@@ -17,6 +17,7 @@
     <!-- Bootstrap -->
     <link href="{% static "plugins/font-awesome/css/font-awesome.min.css"%}" rel="stylesheet">
     <link href="{% static "plugins/slick/slick.css"%}" rel="stylesheet">
+    <link href="{% static "css/style.css" %}" rel="stylesheet">
     <link href="{% static "plugins/slick-nav/slicknav.css"%}" rel="stylesheet">
     <link href="{% static "plugins/wow/animate.css"%}" rel="stylesheet">
     <link href="{% static "assets/css/bootstrap.css"%}" rel="stylesheet">
@@ -53,27 +54,67 @@
         <div class="container">
             <div class="row">
                 <div id="filter-container">
-                    {% for article in articles %}
-                    <div class='col-md-4 col-sm-6 layout-item-wrap mix a1'>
-                        <article class="blog-post clearfix layout-item">
-                            <figure class="feature-image">
-                                <time class="updated btn btn-warning" datetime="2017-02-01T13:58Z">{{ article.datetime }}</time>
-                            </figure>
-                            <br>
-                            <br>
-                            <div class="post-contents clearfix">
-                                <h4 class="entry-title"><a href="{{ article.link }}">{{ article.title }}</a></h4>
-                                <div class="contents clearfix">
-                                    {{ article.img }}
+                    {% for news in newslist.object_list %}
+
+                        <div class='col-md-4 col-sm-6 layout-item-wrap mix a1'>
+                            <article class="blog-post clearfix layout-item">
+                                <figure class="feature-image">
+                                    <a href="single.html" class="clearfix zoom"><img data-action="zoom" src="{{ news.img }}" alt="Blog Image" style="width: 300px;height: 200px"></a>
+                                    <time class="updated btn btn-warning" datetime="2017-02-01T13:58Z">{{ news.datetime }}</time>
+                                </figure>
+                                <div class="post-contents clearfix">
+                                    <h4 class="entry-title"><a href="{{ news.link }}" target="_blank">{{ news.title }}</a></h4>
+                                    <footer class="post-footer post-meta clearfix">
+                                        <span class="author">Post by <a href="#"> {{ news.source }}</a>  </span>
+                                    </footer>
                                 </div>
-                            </div>
-                        </article>
-                    </div>
+                            </article>
+                        </div>
+
+{#                    <div class='col-md-4 col-sm-6 layout-item-wrap mix a1'>#}
+{#                        <article class="blog-post clearfix layout-item">#}
+{#                            <figure class="feature-image">#}
+{#                                <time class="updated btn btn-warning" datetime="2017-02-01T13:58Z">{{ news.datetime }}</time>#}
+{#                            </figure>#}
+{#                            <br>#}
+{#                            <br>#}
+{#                            <div class="post-contents clearfix">#}
+{#                                <h4 class="entry-title"><a href="{{ news.link }}">{{ news.title }}</a></h4>#}
+{#                                <div class="contents clearfix">#}
+{#                                    <img src="{{ news.img }}" style="width: 250px; height: 180px">#}
+{#                                </div>#}
+{#                            </div>#}
+{#                        </article>#}
+{#                    </div>#}
                     {% endfor %}
+
                 </div>
             </div>
         </div>
         <a href="#top" id="scroll-top"><i class="fa fa-angle-up"></i></a>
+
+        <div class="pageturn">
+            <ul class="pagelist" >
+                {% if newslist.has_previous %}
+                    <li class="long"><a href="?{{ newslist.previous_page_number.querystring }}" >上一页</a></li>
+                {% endif %}
+                {% for page in newslist.pages %}
+                    {% if page %}
+                        {% ifequal page newslist.number %}
+                            <li class="active" style="list-style-type: none"><a href="?{{ page.querystring }}">{{ page }}</a></li>
+                        {% else %}
+                            <li style="list-style-type: none"><a href="?{{ page.querystring }}">{{ page }}</a></li>
+                        {% endifequal %}
+                    {% else %}
+                        <li class="none" style="list-style-type: none"><a href="">...</a></li>
+                    {% endif %}
+                {% endfor %}
+                {% if newslist.has_next %}
+                    <li class="long" style="list-style-type: none"><a href="?{{ newslist.next_page_number.querystring }}">下一页</a></li>
+                {% endif %}
+            </ul>
+         </div>
+
     </div>
 <footer id="footer">
 <div class="site-footer">

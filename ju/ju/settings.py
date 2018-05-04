@@ -38,7 +38,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'illustration',
+    'pure_pagination',
 ]
+
+AUTH_USER_MODEL = "illustration.UserProfile"
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -77,9 +80,9 @@ WSGI_APPLICATION = 'ju.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'lianjia',  # 数据库名字，
+        'NAME': 'ju',  # 数据库名字
         'USER': 'root',  # 数据库登录用户名
-        'PASSWORD': '123456',  # 数据库登录密码,我自己修改了
+        'PASSWORD': 'housemap1998',  # 数据库登录密码,我自己修改了
         'HOST': 'localhost',  # 数据库所在主机（公司中写真实主机地址）
         'PORT': '3306',  # 数据库端口
     }

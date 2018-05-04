@@ -4,15 +4,28 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <script type="text/javascript" src="{% static "js/jquery.min.js" %}"></script>
-    <script type="text/javascript" src="{% static "js/bootstrap.min.js" %}"></script>
-    <script type="text/javascript" src="{% static "js/index.js" %}"></script>
     <link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
-     <link href={% static "assets/css/theme.css"%} rel="stylesheet">
-	 <link rel="stylesheet" href="{% static "css/common.css" %}">
+
+    <!-- favicon and touch icons -->
+    <link rel="shortcut icon" href="{% static "assets/images/favicon.png"%}" >
+
+    <!-- Bootstrap -->
+    <link href="{% static  "plugins/font-awesome/css/font-awesome.min.css"%}" rel="stylesheet">
+
+    <link href="{% static  "plugins/wow/animate.css"%}" rel="stylesheet">
+    <link href="{% static "assets/css/theme.css"%}" rel="stylesheet">
+    <link rel="stylesheet" href="{% static "css/common.css" %}">
 </head>
 <body>
-{% include "header.html" %}
+<div id="page-loader">
+    <div class="loaders">
+        <img src="{% static "assets/images/loader/3.gif"%}" alt="First Loader">
+        <img src="{% static "assets/images/loader/4.gif"%}" alt="First Loader">
+    </div>
+</div>
+<header id="site-header">
+        {% include "header.html" %}
+</header>
 <div class="container-fluid">
         <div class="row">
             <div class="col-sm-2 col-md-2 sidebar" id="sidebar">
@@ -26,7 +39,13 @@
                             <h3 class="panel-title">登录</h3>
                         </div>
                         <div class="panel-body">
-                            <form role="form" _lpchecked="1">
+                            <form action="{% url 'illustration:login'%}" method="post" autocomplete="off">
+                                <!-- 错误提示栏,可提示用户名与密码不符/用户名或密码为空的错误 -->
+                                <div style="text-align: left; border: none; color: red; padding-bottom: 10px">
+                                {% for key, error in login_form.errors.items %}
+                                {{ error }}
+                                {% endfor %}
+                                {{ msg }}</div>
                                 <fieldset>
                                     <div class="form-group">
                                         <input name="username" class="form-control" placeholder="用户名" style="background-image: url(&quot;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAASCAYAAABSO15qAAAAAXNSR0IArs4c6QAAAPhJREFUOBHlU70KgzAQPlMhEvoQTg6OPoOjT+JWOnRqkUKHgqWP4OQbOPokTk6OTkVULNSLVc62oJmbIdzd95NcuGjX2/3YVI/Ts+t0WLE2ut5xsQ0O+90F6UxFjAI8qNcEGONia08e6MNONYwCS7EQAizLmtGUDEzTBNd1fxsYhjEBnHPQNG3KKTYV34F8ec/zwHEciOMYyrIE3/ehKAqIoggo9inGXKmFXwbyBkmSQJqmUNe15IRhCG3byphitm1/eUzDM4qR0TTNjEixGdAnSi3keS5vSk2UDKqqgizLqB4YzvassiKhGtZ/jDMtLOnHz7TE+yf8BaDZXA509yeBAAAAAElFTkSuQmCC&quot;); background-repeat: no-repeat; background-attachment: scroll; background-size: 16px 18px; background-position: 98% 50%; cursor: auto;" type="text">
@@ -34,8 +53,9 @@
                                     <div class="form-group">
                                         <input name="password" class="form-control" placeholder="密码" style="background-image: url(&quot;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAASCAYAAABSO15qAAAAAXNSR0IArs4c6QAAAPhJREFUOBHlU70KgzAQPlMhEvoQTg6OPoOjT+JWOnRqkUKHgqWP4OQbOPokTk6OTkVULNSLVc62oJmbIdzd95NcuGjX2/3YVI/Ts+t0WLE2ut5xsQ0O+90F6UxFjAI8qNcEGONia08e6MNONYwCS7EQAizLmtGUDEzTBNd1fxsYhjEBnHPQNG3KKTYV34F8ec/zwHEciOMYyrIE3/ehKAqIoggo9inGXKmFXwbyBkmSQJqmUNe15IRhCG3byphitm1/eUzDM4qR0TTNjEixGdAnSi3keS5vSk2UDKqqgizLqB4YzvassiKhGtZ/jDMtLOnHz7TE+yf8BaDZXA509yeBAAAAAElFTkSuQmCC&quot;); background-repeat: no-repeat; background-attachment: scroll; background-size: 16px 18px; background-position: 98% 50%;" type="password">
                                     </div>
-                                    <button class="btn btn-primary btn-block" type="button" onclick="login()">登录</button>
+                                    <input class="btn btn-primary btn-block" type="submit" value="登录" />
                                 </fieldset>
+                                {% csrf_token %}
                             </form>
                         </div>
                     </div>
@@ -43,5 +63,18 @@
             </div>
         </div>
     </div>
+<script src="{% static "assets/js/jquery.min.js"%}"></script>
+<script src="{% static "assets/js/bootstrap.min.js"%}"></script>
+<script src="{% static "plugins/slick-nav/jquery.slicknav.min.js"%}"></script>
+<script src="{% static "plugins/slick/slick.min.js"%}"></script>
+<script src="{% static "plugins/jquery-ui/jquery-ui.min.js"%}"></script>
+<script src="{% static "plugins/tweetie/tweetie.js"%}"></script>
+<script src="{% static "plugins/forms/jquery.form.min.js"%}"></script>
+<script src="{% static "plugins/forms/jquery.validate.min.js"%}"></script>
+<script src="{% static "plugins/modernizr/modernizr.custom.js"%}"></script>
+<script src="{% static "plugins/wow/wow.min.js"%}"></script>
+<script src="{% static "plugins/zoom/zoom.js"%}"></script>
+<script src="{% static "plugins/mixitup/mixitup.min.js"%}"></script>
+<script src="{% static "assets/js/theme.js"%}"></script>
 </body>
 </html>

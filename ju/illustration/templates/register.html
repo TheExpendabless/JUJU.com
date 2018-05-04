@@ -5,10 +5,10 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <script type="text/javascript" src="{% static "js/jquery.min.js" %}"></script>
-    <script type="text/javascript" src="{% static "js/index.js" %}"></script>
     <script type="text/javascript" src="{% static "js/bootstrap.min.js" %}"></script>
-     <link href={% static "assets/css/theme.css"%} rel="stylesheet">
+    <script type="text/javascript" src="{% static "js/index.js" %}"></script>
     <link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
+     <link href={% static "assets/css/theme.css"%} rel="stylesheet">
 	 <link rel="stylesheet" href="{% static "css/common.css" %}">
 </head>
 <body>
@@ -20,22 +20,19 @@
             </div>
             <div class="col-sm-10 col-md-10 col-md-offset-2 main">
                 <div class="col-sm-3 col-sm-offset-1 col-md-3 col-md-offset-4">
-                    {% if errors %}
-                        <li>
-                            {% for error in errors %}
-                                <p style="color: red;">
-                                    {{error}}
-                                </p>
-                            {% endfor %}
-                        </li>
-                    {% endif %}
                     <div class="login-panel panel panel-default">
                         <div class="panel-heading">
                             <h3 class="panel-title">注册</h3>
                         </div>
                         <div class="panel-body">
                             <form action="{% url 'illustration:register'%}" role="form"method="post">
-                                {% csrf_token %}
+                                    <!-- 错误提示栏,可提示用户名已注册/用户名或密码不合法/两次密码输入不一致的错误 -->
+                                    <div style="text-align: left; border: none; color: red; padding-bottom: 10px">
+                                    {% for key, error in register_form.errors.items %}
+                                    {{ error }}
+                                    {% endfor %}
+                                    {{ msg }}</div>
+                                    <!-- 注册基本信息填写 -->
                                     <div class="form-group">
                                         <input name="username" type="text" class="form-control" placeholder="用户名（长度超过3位，含有a-z,0-9）">
                                     </div>
@@ -46,6 +43,7 @@
                                         <input name="repeat" type="password" class="form-control"placeholder="确认密码">
                                     </div>
                                     <input  class="btn btn-primary btn-block" type="submit" value="注册"/>
+                                {% csrf_token %}
                             </form>
                         </div>
                     </div>
@@ -53,5 +51,18 @@
             </div>
         </div>
     </div>
+<script src="{% static "assets/js/jquery.min.js"%}"></script>
+<script src="{% static "assets/js/bootstrap.min.js"%}"></script>
+<script src="{% static "plugins/slick-nav/jquery.slicknav.min.js"%}"></script>
+<script src="{% static "plugins/slick/slick.min.js"%}"></script>
+<script src="{% static "plugins/jquery-ui/jquery-ui.min.js"%}"></script>
+<script src="{% static "plugins/tweetie/tweetie.js"%}"></script>
+<script src="{% static "plugins/forms/jquery.form.min.js"%}"></script>
+<script src="{% static "plugins/forms/jquery.validate.min.js"%}"></script>
+<script src="{% static "plugins/modernizr/modernizr.custom.js"%}"></script>
+<script src="{% static "plugins/wow/wow.min.js"%}"></script>
+<script src="{% static "plugins/zoom/zoom.js"%}"></script>
+<script src="{% static "plugins/mixitup/mixitup.min.js"%}"></script>
+<script src="{% static "assets/js/theme.js"%}"></script>
 </body>
 </html>

@@ -115,34 +115,15 @@
           ">查看更多</a></p>
        </div>
     </header>
-     <div class="widget-post">
-                <div class="row">
-                    <div>
-                        <p class="entry-title",sytle="text-align:center"><a href="single.html">Skills That You Can Learn In The Real Estate Market</a></p>
-                    </div>
+    {% for news in newslist %}
+        <div class="widget-post">
+            <div class="row">
+                <div>
+                    <p class="entry-title",sytle="text-align:center"><a href="{{ news.link }}" target="_blank">{{ news.title }}</a></p>
                 </div>
             </div>
-	 <div class="widget-post">
-                <div class="row">
-                    <div>
-                        <p class="entry-title",sytle="text-align:center"><a href="single.html">Skills That You Can Learn In The Real Estate Market</a></p>
-                    </div>
-                </div>
-            </div>
-     <div class="widget-post">
-                <div class="row">
-                    <div>
-                        <p class="entry-title",sytle="text-align:center"><a href="single.html">Skills That You Can Learn In The Real Estate Market</a></p>
-                    </div>
-                </div>
-            </div>
-     <div class="widget-post">
-                <div class="row">
-                    <div>
-                        <p class="entry-title",sytle="text-align:center"><a href="single.html">Skills That You Can Learn In The Real Estate Market</a></p>
-                    </div>
-                </div>
-            </div>
+        </div>
+    {% endfor %}
 	</section>
 
 <footer id="footer">

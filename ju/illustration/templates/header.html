@@ -24,12 +24,24 @@
                         <li>
                             <a href="{% url 'illustration:contact' %}">联系我们</a>
                         </li>
-                        <li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true">用户 <span class="caret"></span></a>
-          <ul class="dropdown-menu">
-            <li><a href="#">登录</a></li>
-            <li><a href="#">注册</a></li>
-                    </ul>
-                        </li>
+
+                        {% if request.user.is_authenticated %}
+                            <li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true">{{ request.user.username }} <span class="caret"></span></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="{% url 'illustration:settings'%}">设置</a></li>
+                                    <li><a href="{% url 'illustration:logout'%}">退出</a></li>
+                                </ul>
+                            </li>
+                        {% else %}
+                            <li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true">用户 <span class="caret"></span></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="{% url 'illustration:login'%}">登录</a></li>
+                                    <li><a href="{% url 'illustration:register'%}">注册</a></li>
+                                </ul>
+                            </li>
+                        {% endif %}
+
+
                     </ul>
                 </nav>
             </div>

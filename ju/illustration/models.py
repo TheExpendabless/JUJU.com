@@ -230,3 +230,12 @@ class User(models.Model):
      username = models.CharField(max_length=50)
      password = models.CharField(max_length=50)
      email = models.EmailField(max_length=50)
+
+class UserProfile(AbstractUser):
+    mobile = models.CharField(max_length=11, verbose_name=u"手机号码", null= True, blank= True, default='')
+    class Meta:
+        verbose_name = "用户信息"
+        verbose_name_plural = verbose_name
+
+    def __unicode__(self):
+        return self.username
