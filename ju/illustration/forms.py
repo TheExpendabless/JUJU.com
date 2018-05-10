@@ -1,6 +1,6 @@
 
 from django import forms
-from illustration.models import UserProfile
+from illustration.models import UserProfile,UserCollect
 
 class LoginForm(forms.Form):
     username = forms.CharField(required=True)
@@ -19,6 +19,10 @@ class UserInfoForm(forms.ModelForm):
         model = UserProfile
         fields = ['username','email','mobile']
 
+class UserCollectForm(forms.ModelForm):
+    class Meta:
+        model = UserCollect
+        fields = ['user','community_id']
 
 # 重置密码
 class ResetPwdForm(forms.Form):

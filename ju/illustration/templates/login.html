@@ -3,38 +3,24 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
-    <link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
-
-    <!-- favicon and touch icons -->
-    <link rel="shortcut icon" href="{% static "assets/images/favicon.png"%}" >
-
-    <!-- Bootstrap -->
-    <link href="{% static  "plugins/font-awesome/css/font-awesome.min.css"%}" rel="stylesheet">
-
-    <link href="{% static  "plugins/wow/animate.css"%}" rel="stylesheet">
-    <link href="{% static "assets/css/theme.css"%}" rel="stylesheet">
+    <title>JUJU.com</title>
+    <script type="text/javascript" src="{% static "js/jquery.min.js" %}"></script>
+    <script type="text/javascript" src="{% static "js/bootstrap.min.js" %}"></script>
+    <script type="text/javascript" src="{% static "js/index.js" %}"></script>
     <link rel="stylesheet" href="{% static "css/common.css" %}">
+    <link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
+     <link href="{% static "assets/css/theme.css"%}" rel="stylesheet">
 </head>
 <body>
-<div id="page-loader">
-    <div class="loaders">
-        <img src="{% static "assets/images/loader/3.gif"%}" alt="First Loader">
-        <img src="{% static "assets/images/loader/4.gif"%}" alt="First Loader">
-    </div>
-</div>
-<header id="site-header">
-        {% include "header.html" %}
-</header>
+{% include "header.html" %}
 <div class="container-fluid">
         <div class="row">
-            <div class="col-sm-2 col-md-2 sidebar" id="sidebar">
-                {% include "sidebar.html" %}
-            </div>
-            <div class="col-sm-10 col-md-10 col-md-offset-2 main">
-                <div class="col-sm-3 col-sm-offset-1 col-md-3 col-md-offset-4">
+            <div class="col-md-12 main">
+                <div class="col-md-12"id="bg_img">
+                    <div class="col-md-12"id="cover"></div>
+                    <div class="col-md-3 col-md-offset-4"style="z-index: 2">
                     <div class="row" id="alert"></div>
-                    <div class="login-panel panel panel-default">
+                    <div class="login-panel panel panel-default" >
                         <div class="panel-heading">
                             <h3 class="panel-title">登录</h3>
                         </div>
@@ -57,24 +43,14 @@
                                 </fieldset>
                                 {% csrf_token %}
                             </form>
-                        </div>
+                    </div>
+                    </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 <script src="{% static "assets/js/jquery.min.js"%}"></script>
-<script src="{% static "assets/js/bootstrap.min.js"%}"></script>
-<script src="{% static "plugins/slick-nav/jquery.slicknav.min.js"%}"></script>
-<script src="{% static "plugins/slick/slick.min.js"%}"></script>
-<script src="{% static "plugins/jquery-ui/jquery-ui.min.js"%}"></script>
-<script src="{% static "plugins/tweetie/tweetie.js"%}"></script>
-<script src="{% static "plugins/forms/jquery.form.min.js"%}"></script>
-<script src="{% static "plugins/forms/jquery.validate.min.js"%}"></script>
-<script src="{% static "plugins/modernizr/modernizr.custom.js"%}"></script>
-<script src="{% static "plugins/wow/wow.min.js"%}"></script>
-<script src="{% static "plugins/zoom/zoom.js"%}"></script>
-<script src="{% static "plugins/mixitup/mixitup.min.js"%}"></script>
 <script src="{% static "assets/js/theme.js"%}"></script>
 </body>
 </html>

@@ -29,7 +29,7 @@
                             <div class="col-md-6 col-md-offset-3 col-sm-6 col-sm-offset-3 ">
                                 <div class="input-group">
                                     {% csrf_token %}
-                                    <input type="text" class="form-control autocomplete ui-autocomplete-input" id="community" placeholder="请输入小区名称（例如财大公寓...）" autocomplete="off">
+                                    <input type="text" class="form-control autocomplete ui-autocomplete-input" id="community" placeholder="请输入小区名称（例如纪念小区...）" autocomplete="off">
                                     <span class="input-group-btn">
                                         <button class="btn btn-primary" onclick="get_unitpricebycommunity()">搜索</button>
                                     </span>
@@ -65,6 +65,8 @@
             </div>
         </div>
 </div>
+<script src="{% static "assets/js/jquery.min.js"%}"></script>
+<script src="{% static "assets/js/theme.js"%}"></script>
 </body>
 </html>
 <script type="text/javascript">
@@ -139,7 +141,13 @@ function init_Graph() {
                     }
                 }
             },
-                yAxis: {min:35000,},
+                yAxis: {min:35000,
+                axisLine:{
+                        lineStyle:{
+                            color:'#ccc',
+                            width:1,//这里是为了突出显示加上的
+                        }
+                    } },
                 series: [{
                     name: '单价',
                     type: 'bar',
@@ -210,7 +218,7 @@ function addGraph(data,location){
                 xAxis: {
                     data:dealdate,
                     axisLabel: {
-                    }
+                    },
                 },
                 grid: {
                     left: '3%',
@@ -218,7 +226,13 @@ function addGraph(data,location){
                     bottom: '3%',
                     containLabel: true
                 },
-                yAxis: {min:10000},
+                yAxis: {min:10000,
+                axisLine:{
+                        lineStyle:{
+                            color:'#ccc',
+                            width:1,//这里是为了突出显示加上的
+                        }
+                    } },
                 series: [{
                     name: '单价',
                     type: 'line',

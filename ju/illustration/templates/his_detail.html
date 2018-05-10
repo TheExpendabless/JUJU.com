@@ -28,7 +28,7 @@
                             <div class="col-md-6 col-md-offset-3 col-sm-6 col-sm-offset-3 ">
                                 <div class="input-group">
                                     {% csrf_token %}
-                                    <input type="text" class="form-control autocomplete ui-autocomplete-input" id="community" placeholder="请输入小区名称（例如财大公寓...）" autocomplete="off">
+                                    <input type="text" class="form-control autocomplete ui-autocomplete-input" id="community" placeholder="请输入小区名称（例如纪念小区...）" autocomplete="off">
                                     <span class="input-group-btn">
                                         <button class="btn btn-primary" onclick="get_detailbycommunity()">搜索</button>
                                     </span>
@@ -42,6 +42,19 @@
             </div>
         </div>
 </div>
+<script src="{% static "assets/js/jquery.min.js"%}"></script>
+{#<script src="{% static "assets/js/bootstrap.min.js"%}"></script>#}
+{#<script src="{% static "plugins/slick-nav/jquery.slicknav.min.js"%}"></script>#}
+{#<script src="{% static "plugins/slick/slick.min.js"%}"></script>#}
+{#<script src="{% static "plugins/jquery-ui/jquery-ui.min.js"%}"></script>#}
+{#<script src="{% static "plugins/tweetie/tweetie.js"%}"></script>#}
+{#<script src="{% static "plugins/forms/jquery.form.min.js"%}"></script>#}
+{#<script src="{% static "plugins/forms/jquery.validate.min.js"%}"></script>#}
+{#<script src="{% static "plugins/modernizr/modernizr.custom.js"%}"></script>#}
+{#<script src="{% static "plugins/wow/wow.min.js"%}"></script>#}
+{#<script src="{% static "plugins/zoom/zoom.js"%}"></script>#}
+{#<script src="{% static "plugins/mixitup/mixitup.min.js"%}"></script>#}
+<script src="{% static "assets/js/theme.js"%}"></script>
 </body>
 </html>
 <script type="text/javascript">

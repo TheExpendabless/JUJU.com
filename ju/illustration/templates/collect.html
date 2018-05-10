@@ -1,0 +1,124 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
+
+    <!-- favicon and touch icons -->
+    <link rel="shortcut icon" href="{% static "assets/images/favicon.png"%}" >
+
+    <!-- Bootstrap -->
+    <link href="{% static  "plugins/font-awesome/css/font-awesome.min.css"%}" rel="stylesheet">
+
+    <script type="text/javascript" src="{% static "js/jquery.min.js" %}"></script>
+    <script type="text/javascript" src="{% static "js/bootstrap.min.js" %}"></script>
+    <script type="text/javascript" src="{% static "js/echarts.js" %}"></script>
+
+    <link href="{% static  "plugins/wow/animate.css"%}" rel="stylesheet">
+    <link href="{% static "assets/css/theme.css"%}" rel="stylesheet">
+    <link rel="stylesheet" href="{% static "css/common.css" %}">
+    <link rel="stylesheet" href="{% static "css/style.css" %}">
+</head>
+<body>
+    <div id="page-loader">
+        <div class="loaders">
+            <img src="{% static "assets/images/loader/3.gif"%}" alt="First Loader">
+            <img src="{% static "assets/images/loader/4.gif"%}" alt="First Loader">
+        </div>
+    </div>
+    {% include "header.html" %}
+    <div class="container-fluid">
+            <div class="row">
+            <div class="col-sm-2 col-md-2 sidebar" id="sidebar">
+                {% include "sidebar.html" %}
+            </div>
+            <div class="col-sm-10 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+                    <div class="row" id="alert"></div>
+{#                    <div class="row">#}
+{#                        <div class="col-sm-12 col-md-12">#}
+{#                            <h2 class="page-header">关注的小区</h2>#}
+{#                        </div>#}
+{#                    </div>#}
+
+                    <div class="panel panel-default " style="margin-top: 30px">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">关注的小区</h3>
+                        </div>
+
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class=" col-md-12 col-sm-12 ">
+                                    <table class="table">
+                                        <tbody id="collect_table">
+                                            <tr>
+                                                <td>名称</td>
+                                                <td>商圈</td>
+                                                <td>区县</td>
+                                                <td>参考均价</td>
+                                                <td>建筑年代</td>
+                                                <td>建筑类型</td>
+                                            </tr>
+                                            {% for fav_community in user_fav_list %}
+                                                <tr>
+                                                    <td>
+                                                        <a href="{{ fav_community.link }}">{{ fav_community.title }}</a>
+                                                    </td>
+                                                    <td>
+                                                        <a href="../search_community/bizcircle?bizcircle={{ fav_community.bizcircle }}">{{ fav_community.bizcircle }}</a>
+                                                    </td>
+                                                    <td>{{ fav_community.district }}</td>
+                                                    <td>{{ fav_community.price }}</td>
+                                                    <td>{{ fav_community.year }}</td>
+                                                    <td>{{ fav_community.housetype }}</td>
+                                                </tr>
+                                            {% endfor %}
+
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    <div class="pageturn">
+            <ul class="pagelist" >
+                {% if user_fav_list_page.has_previous %}
+                    <li class="long btn_li"><a class="page_a" href="?{{ user_fav_list_page.previous_page_number.querystring }}" >上一页</a></li>
+                {% endif %}
+                {% for page in user_fav_list_page.pages %}
+                    {% if page %}
+                        {% ifequal page user_fav_list_page.number %}
+                            <li class="active btn_li" style="list-style-type: none"><a class="page_a" href="?{{ page.querystring }}">{{ page }}</a></li>
+                        {% else %}
+                            <li class="btn_li" style="list-style-type: none"><a class="page_a" href="?{{ page.querystring }}">{{ page }}</a></li>
+                        {% endifequal %}
+                    {% else %}
+                        <li class="none btn_li" style="list-style-type: none"><a class="page_a" href="">...</a></li>
+                    {% endif %}
+                {% endfor %}
+                {% if user_fav_list_page.has_next %}
+                    <li class="long btn_li" style="list-style-type: none"><a class="page_a" href="?{{ user_fav_list_page.next_page_number.querystring }}">下一页</a></li>
+                {% endif %}
+            </ul>
+         </div>
+                    </div>
+            </div>
+        </div>
+
+    </div>
+<script src="{% static "assets/js/jquery.min.js"%}"></script>
+{#<script src="{% static "assets/js/bootstrap.min.js"%}"></script>#}
+{#<script src="{% static "plugins/slick-nav/jquery.slicknav.min.js"%}"></script>#}
+{#<script src="{% static "plugins/slick/slick.min.js"%}"></script>#}
+{#<script src="{% static "plugins/jquery-ui/jquery-ui.min.js"%}"></script>#}
+{#<script src="{% static "plugins/tweetie/tweetie.js"%}"></script>#}
+{#<script src="{% static "plugins/forms/jquery.form.min.js"%}"></script>#}
+{#<script src="{% static "plugins/forms/jquery.validate.min.js"%}"></script>#}
+{#<script src="{% static "plugins/modernizr/modernizr.custom.js"%}"></script>#}
+{#<script src="{% static "plugins/wow/wow.min.js"%}"></script>#}
+{#<script src="{% static "plugins/zoom/zoom.js"%}"></script>#}
+{#<script src="{% static "plugins/mixitup/mixitup.min.js"%}"></script>#}
+<script src="{% static "assets/js/theme.js"%}"></script>
+</body>
+</html>

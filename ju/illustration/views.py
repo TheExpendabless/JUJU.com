@@ -12,6 +12,7 @@ from django.core.serializers import serialize
 from django.core.serializers.json import  DjangoJSONEncoder
 from django.contrib.auth.hashers import make_password
 from django.db.models import F
+from django.contrib import messages
 import requests
 import datetime
 
@@ -27,8 +28,8 @@ from django.urls import reverse
 from django.db.models import Q
 from django.views.generic.base import  View
 from . import  models
-from .models import UserProfile
-from .forms import LoginForm, RegisterForm, UserInfoForm, ResetPwdForm
+from .models import UserProfile,UserCollect
+from .forms import LoginForm, RegisterForm, UserInfoForm, ResetPwdForm,UserCollectForm
 
 # pure pagination开源库进行分页
 from django.shortcuts import render_to_response
@@ -37,7 +38,6 @@ from pure_pagination import Paginator, EmptyPage, PageNotAnInteger
 
 # Create your views here.
 def home(request):
-    if request.method == "GET":
         # 数据库中数据按照时间降序排列，此处取出前四条数据
         newslist = models.newsFlash.objects.all()[:4]
         return render(request, 'home.html',{"newslist":newslist})
@@ -100,7 +100,8 @@ def user_login(request):
             user = authenticate(username=user_name,password=pass_word)
             if user is not None:
                 login(request,user)
-                return render(request,'home.html')
+                newslist = models.newsFlash.objects.all()[:4]
+                return render(request,'home.html',{"newslist": newslist})
             else:
                 return render(request,'login.html',{"msg": "用户名或密码错误!"})
         else:
@@ -109,7 +110,8 @@ def user_login(request):
 # 用户退出
 def user_logout(request):
     logout(request)
-    return render(request,'home.html',{})
+    newslist = models.newsFlash.objects.all()[:4]
+    return render(request,'home.html',{"newslist": newslist})
 
 def user_settings(request):
     if request.method == "GET":
@@ -151,10 +153,22 @@ def reset_pwd(request):
             return render(request,"settings.html",{
                 "modiypwd_form": reset_form,"msg": "密码输入格式有误"})
 
-
 def community_detail(request):
+
     community_title=request.POST.get('community')
-    community=models.Community.objects.get(title=community_title)
+    community=models.Community.objects.filter(title=community_title)
+    if len(community)==0:
+        messages.warning(request,'抱歉，查找失败')
+        return render(request,'index.html')
+    community = community[0]
+    collect_status = 0
+    if request.user.is_authenticated:
+        id = community.id
+        is_collect = models.UserCollect.objects.filter(user=request.user.username,community_id=int(id))
+        if len(is_collect) == 0:
+            collect_status = 0
+        else:
+            collect_status = 1
     address="上海市"+community.district+community_title
     parameters1 = {'address': address, 'key': 'f14f3c4d3e03c58b2cb53fdacb49ecb7'}
     base1 = 'http://restapi.amap.com/v3/geocode/geo'
@@ -165,7 +179,7 @@ def community_detail(request):
     base2='http://restapi.amap.com/v3/place/around'
     parameters2={'location':answer['geocodes'][0]['location'], 'keywords':'医院','type':'090000','radius':1000,'key': 'f14f3c4d3e03c58b2cb53fdacb49ecb7'}
     count = requests.get(base2, parameters2).json()['count']
-    return render(request,'community_detail.html',{'community':community,'lng':lng,'lat':lat,'count':count})
+    return render(request,'community_detail.html',{'community':community,'lng':lng,'lat':lat,'count':count,'collect_status':collect_status})
 
 def his_price(request):
     unitprice_infos=[]
@@ -209,3 +223,96 @@ def news(request):
 
     news = p.page(page)
     return render(request, 'news.html',{"newslist":news})
+
+def collect(request):
+     if request.method == "POST":
+         # 默认值为0 防止程序崩盘
+         id = request.POST.get('community_id',0)
+
+         # 收藏与已收藏取消收藏
+         # 判断用户是否登录:即使没登录会有一个匿名的user
+         if not request.user.is_authenticated:
+             # 未登录时返回json提示未登录，跳转到登录页面在ajax中实现
+             # return HttpResponse('{"status":0, "msg":"用户未登录"}',content_type='application/json')
+             data = json.dumps({"status":0, "msg": "用户未登录"},cls=DjangoJSONEncoder)
+             return HttpResponse(data)
+         exist_records = UserCollect.objects.filter(user=request.user.username,community_id=int(id))
+         if exist_records:
+             # 如果记录已经存在， 则表示用户取消收藏
+             exist_records.delete()
+             # return HttpResponse('{"status":1, "msg":"收藏"}',content_type='application/json')
+             data = json.dumps({"status": 1,"msg": "关注小区"},cls=DjangoJSONEncoder)
+             return HttpResponse(data)
+         else:
+             user_fav = models.UserCollect()
+             # 默认值为0 剔除默认
+             if int(id) > 0:
+                 user_fav.community_id = int(id)
+                 user_fav.user = request.user.username
+                 user_fav.save()
+                 # return HttpResponse('{"status":1, "msg":"已关注"}',content_type='application/json')
+                 data = json.dumps({"status": 1,"msg": "已关注"},cls=DjangoJSONEncoder)
+                 return HttpResponse(data)
+             else:
+                 # return HttpResponse('{"status":0, "msg":"收藏出错"}',content_type='application/json')
+                 data = json.dumps({"status": 0,"msg": "收藏出错"},cls=DjangoJSONEncoder)
+                 return HttpResponse(data)
+
+def show_collect(request):
+    if request.method == "GET":
+        user = request.user.username
+        fav_id_list = UserCollect.objects.filter(user=user)
+        user_fav_list = []
+        for fav_comminuty in fav_id_list:
+            id = fav_comminuty.community_id
+            user_fav_list.append(models.Community.objects.get(id=id))
+        # return render(request,'collect.html',{
+        #     "user_fav_list": user_fav_list,
+        # })
+
+        try:
+            page = request.GET.get('page',1)
+        except PageNotAnInteger:
+            page = 1
+        p = Paginator(user_fav_list,10,request=request)
+
+        news = p.page(page)
+        return render(request,'collect.html',{"user_fav_list": user_fav_list, "user_fav_list_page": news})
+
+def invest_ass(request):
+    return render(request,'invest_ass.html',{})
+
+def price_predict(request):
+    if request.method == "GET":
+        return render(request,'price_predict.html',{})
+    if request.method == "POST":
+        # 可以设置默认值但是没设置
+        community = request.POST.get('community')
+
+        exist_records = models.Community.objects.filter(title=community)
+        if not exist_records:
+            data = json.dumps({"status": 0,"msg": "不存在该小区"},cls=DjangoJSONEncoder)
+            return HttpResponse(data)
+        else:
+            find_com = exist_records[0]
+            if len(find_com.taglist) == 0:
+                near_sub = 0
+            else:
+                near_sub = 1
+            if find_com.cost == "暂无信息":
+                wuye_price = 0.75
+            else:
+                wuye_price = find_com.cost
+                length = len(wuye_price)
+                wuye_price = wuye_price[0:length-6]
+                if not wuye_price.isdigit():
+                    wuye_price = wuye_price[0:3]
+            if find_com.price == "暂无":
+                com_price = 50251
+            else:
+                com_price = find_com.price
+            data = json.dumps({"status": 1,"msg": "查询到小区信息","near_sub":near_sub,"wuye_price":wuye_price,"com_price":com_price},cls=DjangoJSONEncoder)
+            return HttpResponse(data)
+
+def buy_or_rent(request):
+    return render(request,'buy_or_rent.html')

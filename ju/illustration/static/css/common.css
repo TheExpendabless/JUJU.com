@@ -1,5 +1,8 @@
-body {  padding-top: 85px; padding-bottom: 70px;}
+body {  padding-top: 70px; padding-bottom: 70px;}
 .navbar{padding-top:10px;height:70px;}
+
+
+
 .sidebar {
     position: fixed;
     top: 85px;
@@ -13,6 +16,7 @@ body {  padding-top: 85px; padding-bottom: 70px;}
     color:#eee;
     background-color: #505457;
     border-right: 1px solid #eee;
+    border-radius: 0 8px 0 0;
 }
 .sidebar a{
     color:#eee;
@@ -33,4 +37,22 @@ li a:hover{
 }
 #collapseList2{
     background-color:#505457;
+}
+#bg_img{
+    width: 100%;
+    padding-top:100px;
+    padding-bottom:180px ;
+    background-image: url("../images/bg_img.jpg");
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+}
+#cover{
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 0;
+    margin: auto;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1;
 }

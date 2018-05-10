@@ -218,7 +218,10 @@ function getcommunitybybizcircle() {
                     data: community_title,
                     axisLabel: {
                         interval: 3,
-                        rotate: 40
+                        rotate: 40,
+                        textStyle: {
+            color: '#ccc'
+        }
                     }
                 },
                 grid: {
@@ -227,7 +230,12 @@ function getcommunitybybizcircle() {
                     bottom: '3%',
                     containLabel: true
                 },
-                yAxis: {},
+                yAxis: {axisLine:{
+                    lineStyle:{
+                        color: '#ccc',
+                        width:1,
+                    }
+                    }},
                 series: [{
                     name: '在售房源',
                     type: 'bar',
@@ -276,8 +284,8 @@ function getcommunitybybizcircle() {
                     result[i].cost + "</td><td>" +
                     result[i].service + "</td><td>" +
                     result[i].company + "</td><td>" +
-                    result[i].buildingNum + "</td><td>" +
-                    result[i].houseNum + "</td>").appendTo('#records_table');
+                    result[i].building_num + "</td><td>" +
+                    result[i].house_num + "</td>").appendTo('#records_table');
             });
         }
         $('.title').click(function () {
