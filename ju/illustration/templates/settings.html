@@ -1,10 +1,123 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <script type="text/javascript" src="{% static "js/jquery.min.js" %}"></script>
+    <script type="text/javascript" src="{% static "js/bootstrap.min.js" %}"></script>
+    <script type="text/javascript" src="{% static "js/index.js" %}"></script>
+    <link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
+     <link href={% static "assets/css/theme.css"%} rel="stylesheet">
+	 <link rel="stylesheet" href="{% static "css/common.css" %}">
 </head>
 <body>
+{% include "header.html" %}
+<div class="content-wrapper">
+        <div style="width: 80%; padding-left: 20%">
+            <!-- Breadcrumbs-->
+            <div class="row">
 
+                <div class="col-12">
+                    <div id="alert"></div>
+                    <div class="login-panel panel panel-default" style="margin-top: 30px">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">修改资料</h3>
+                        </div>
+                        <form action="{% url 'illustration:userinfo'%}" method="post" id="jsEditUserForm">
+
+                            <div class="card-body form-horizontal" style="padding: 15px">
+                                <div class="form-group">
+                                    <label for="username" class="col-sm-2 col-md-2 control-label">用户名</label>
+                                    <div class="col-sm-10 col-md-10">
+                                        <input type="text" class="form-control" id="username" name="username" readonly value={{ request.user.username }}>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="email" class="col-sm-2 col-md-2 control-label">电子邮箱</label>
+                                    <div class="col-sm-10 col-md-10">
+                                        <input type="text" class="form-control" id="email" name="email" value={{ request.user.email }}>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="mobile" class="col-sm-2 col-md-2 control-label">电话号码</label>
+                                    <div class="col-sm-10 col-md-10">
+                                        <input type="text" class="form-control" id="mobile" name="mobile" value={{ request.user.mobile }}>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-12 col-md-12 text-center">
+                                        <button type="submit" class="btn btn-primary" id="jsEditUserBtn">保存信息</button>
+                                    </div>
+                                </div>
+                            </div>
+                        {% csrf_token %}
+                        </form>
+                    </div>
+                    <div class="login-panel panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">更改密码</h3>
+                        </div>
+                        <form action="{% url 'illustration:reset_pwd'%}" method="post" autocomplete="off">
+
+                            <div class="card-body form-horizontal" style="padding: 15px">
+                                <!-- 错误提示栏,可提示旧密码不对/两次密码输入不一致的错误 -->
+                                <div style="text-align: center; border: none; color: red; padding-bottom: 10px">
+                                {% for key, error in register_form.errors.items %}
+                                {{ error }}
+                                {% endfor %}
+{#                                <label for="concept" class="col-sm-2 col-md-2 control-label">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>#}
+                                    {{ msg }}</div>
+{#                                <div class="form-group">#}
+{#                                    <label for="concept" class="col-sm-2 col-md-2 control-label">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>#}
+{#                                    <div class="col-sm-10 col-md-10">#}
+{#                                        <input type="password" class="form-control" id="oldpassword" name="oldpassword">#}
+{#                                    </div>#}
+{#                                </div>#}
+                                <div class="form-group">
+                                    <label for="concept" class="col-sm-2 col-md-2 control-label">原始密码</label>
+                                    <div class="col-sm-10 col-md-10">
+                                        <input type="password" class="form-control" id="oldpassword" name="oldpassword">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="description" class="col-sm-2 col-md-2 control-label">新密码</label>
+                                    <div class="col-sm-10 col-md-10">
+                                        <input type="password" class="form-control" id="newpassword" name="newpassword">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="amount" class="col-sm-2 col-md-2 control-label">确认密码</label>
+                                    <div class="col-sm-10 col-md-10">
+                                        <input type="password" class="form-control" id="repeatpassword" name="repeatpassword">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-12 col-md-12 text-center">
+                                        <button type="submit" class="btn btn-primary">修改密码</button>
+                                    </div>
+                                </div>
+                            </div>
+                        {% csrf_token %}
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<script src="{% static "assets/js/jquery.min.js"%}"></script>
+{#<script src="{% static "assets/js/bootstrap.min.js"%}"></script>#}
+{#<script src="{% static "plugins/slick-nav/jquery.slicknav.min.js"%}"></script>#}
+{#<script src="{% static "plugins/slick/slick.min.js"%}"></script>#}
+{#<script src="{% static "plugins/jquery-ui/jquery-ui.min.js"%}"></script>#}
+{#<script src="{% static "plugins/tweetie/tweetie.js"%}"></script>#}
+{#<script src="{% static "plugins/forms/jquery.form.min.js"%}"></script>#}
+{#<script src="{% static "plugins/forms/jquery.validate.min.js"%}"></script>#}
+{#<script src="{% static "plugins/modernizr/modernizr.custom.js"%}"></script>#}
+{#<script src="{% static "plugins/wow/wow.min.js"%}"></script>#}
+{#<script src="{% static "plugins/zoom/zoom.js"%}"></script>#}
+{#<script src="{% static "plugins/mixitup/mixitup.min.js"%}"></script>#}
+<script src="{% static "assets/js/theme.js"%}"></script>
 </body>
 </html>

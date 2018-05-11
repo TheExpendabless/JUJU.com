@@ -1,0 +1,521 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>JUJU.com</title>
+
+    <!-- Styles -->
+
+
+    <!-- favicon and touch icons -->
+    <link rel="shortcut icon" href="{% static "assets/images/favicon.png"%}" >
+
+    <!-- Bootstrap -->
+    <link href="{% static "plugins/font-awesome/css/font-awesome.min.css"%}" rel="stylesheet">
+    <link href="{% static "plugins/slick/slick.css"%}" rel="stylesheet">
+    <link href="{% static "css/style.css" %}" rel="stylesheet">
+    <link href="{% static "plugins/slick-nav/slicknav.css"%}" rel="stylesheet">
+    <link href="{% static "plugins/wow/animate.css"%}" rel="stylesheet">
+    <link href="{% static "assets/css/bootstrap.css"%}" rel="stylesheet">
+    <link href="{% static "assets/css/theme.css"%}" rel="stylesheet">
+    <script type="text/javascript" src="{% static "js/echarts.js" %}"></script>
+
+    <style type="text/css">
+
+        .input_table tr{
+            height: 50px;
+        }
+
+        .input_table th{
+            font-weight: bold;
+            color: #1d1d1d;
+        }
+
+        .input_table td{
+            color: #1d1d1d;
+        }
+
+        .input_table td input{
+            margin-left: 50px;
+        }
+
+        .part_input{
+            background-color: white;
+            border-radius: 4px;
+            padding-left: 10px;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            outline: none;
+            border: 0px;
+            margin-right: 10px;
+            text-align: center;
+        }
+
+        .decline td div{
+            background-color: #f5f5f5;
+            font-size: 12px;
+            color: #ff493d;
+            border-radius: 0;
+            padding-top: 0;
+            padding-bottom: 0;
+            padding-right: 18px;
+            text-align: right;
+            outline: none;
+            border: 0px;
+            margin-right: 5px;
+        }
+
+        th{
+            font-size: 15px;
+        }
+        .result_input{
+            border: 0px;
+            outline: none;
+            padding: 0;
+            margin: 20px;
+            width: 100px;
+            background-color: #f5f5f5;
+            text-align: center;
+        }
+
+        .benxi_benjin_table{
+            border: 3px solid #151515;
+        }
+
+        table th{
+            padding-left: 30px;
+            padding-right: 30px;
+            padding-top: 15px;
+            padding-bottom: 15px;
+        }
+
+        table td{
+            text-align: left;
+            padding-left: 30px;
+            font-weight: bold;
+            font-size: 15px;
+        }
+
+        .benxi_benjin_table input{
+            text-align: right;
+            border: 0px;
+            outline: none;
+            padding: 0;
+            margin: 20px 20px 0 20px;
+            width: 100px;
+            background-color: #f5f5f5;
+        }
+
+    </style>
+
+</head>
+<body>
+    <div id="page-loader">
+        <div class="loaders">
+            <img src="{% static "assets/images/loader/3.gif"%}" alt="First Loader">
+            <img src="{% static "assets/images/loader/4.gif"%}" alt="First Loader">
+        </div>
+    </div>
+    <header id="site-header">
+        {% include "header.html" %}
+    </header>
+    <div id="site-banner" class="text-center clearfix" style="margin-bottom: 0">
+        <div class="container">
+            <h1 class="title">房产估价</h1>
+            <ol class="breadcrumb">
+                <li><a href="{% url 'illustration:home' %}">首页</a></li>
+                <li class="active">房产估价</li>
+            </ol>
+        </div>
+    </div>
+        <ul class="nav justify-content-center" style="text-align: center; padding-bottom: 40px">
+            <li class="nav-item" style=" display: inline-block;margin-right: 100px;">
+                <table style="margin:100px auto 0px auto" class="input_table">
+                    <tr >
+                      <th >房屋户型</th>
+                      <td style="margin-left: 50px"><input id="feature_1" class="part_input" value="2" type="text" style="width: 60px; padding-right: 10px;margin-right: 20px">室
+                      <input id="feature_2" class="part_input" value="1" type="text" style="width: 60px; padding-right: 10px">厅</td>
+                    </tr>
+                    <tr>
+                      <th>总面积</th>
+                      <td><input id="feature_3" class="part_input" type="text" value="80">平方米</td>
+                    </tr>
+                    <tr>
+                      <th>朝向</th>
+                      <td>
+                      <select id="feature_4" style="width:80px;text-align: center; margin-left: 50px;min-height: 40px;font-size: inherit;line-height: inherit;" class="part_input">
+                          <option value="0">西</option>
+                          <option value="1">西北</option>
+                          <option value="2">北</option>
+                          <option value="3">东北</option>
+                          <option value="4">西南</option>
+                          <option value="5">东</option>
+                          <option value="6">东南</option>
+                          <option value="7">南</option>
+                      </select></td>
+                    </tr>
+                    <tr>
+                      <th>房屋楼层</th>
+                      <td><select id="feature_5" style="width:80px;text-align: center; margin-left: 50px;min-height: 40px;font-size: inherit;line-height: inherit;" class="part_input">
+                          <option value="2">低</option>
+                          <option value="1">中</option>
+                          <option value="0">高</option>
+                      </select></td>
+                    </tr>
+                    <tr>
+                      <th>总楼层</th>
+                      <td><input id="feature_6" class="part_input" type="text" value="20" >层</td>
+                    </tr>
+                    <tr>
+                      <th>装修状态</th>
+                      <td><select id="feature_7" style="width:80px;text-align: center; margin-left: 50px;min-height: 40px;font-size: inherit;line-height: inherit;" class="part_input">
+                          <option value="2">精装</option>
+                          <option value="1">中装</option>
+                          <option value="0">简装</option>
+                      </select></td>
+                    </tr>
+                    <tr>
+                      <th>小区名</th>
+                      <td><input id="feature_8" placeholder="非必填项*" class="part_input" type="text"></td>
+                    </tr>
+                </table>
+                <div style="width: 600px;min-height:20px; margin-bottom: 15px; margin-left: auto;margin-right: auto; font-size: 12px;color: red">
+                    <input id="input_error" value="您输入的小区不存在" style="display: none;border:0; outline:none; margin: auto; width: 200px; height: 20px; text-align: center;font-size: 14px;color: red" >
+                    </input>
+                </div>
+                <div style="width: 600px; margin-top: 0; margin-bottom: 20px; margin-left: auto;margin-right: auto">
+                    <button onclick="predict()" class="whf" style="outline:none; border-radius: 4px; margin: auto; width: 200px; height: 50px; text-align: center; background-color: #323232; font-size: 20px;font-family: 'Microsoft YaHei UI'; color: white" >
+                        开始估价
+                    </button>
+                </div>
+            </li>
+            <li class="nav-item" style="display: inline-block;">
+                <div id="main" style="width: 400px; height:400px; margin:0 auto"></div>
+                <script type="text/javascript">
+                    var myChart = echarts.init(document.getElementById('main'));
+                    var error = document.getElementById("input_error");
+                    function predict_without_com(shi,ting,square,direction,floor_1,floor_2,floor_3,total_floor,status) {
+                        var no_community_price =
+                                10.6131*shi
+                                +8.19905*ting
+                                +0.952084*square
+                                +7.61856*direction
+                                +1.84588*floor_1
+                                +1.89299*floor_2
+                                +1.73131*floor_3
+                                +4.97279*total_floor
+                                +5.62744*status
+                                +68.9101;
+                        var floor_value_total = 1.84588*floor_1+1.89299*floor_2+1.73131*floor_3;
+                        var info = [no_community_price];
+                        info.push({value:10.6131*shi, name:'室'});
+                        info.push({value:8.19905*ting, name:'厅'});
+                        info.push({value:0.952084*square, name:'面积'});
+                        info.push({value:7.61856*direction, name:'朝向'});
+                        info.push({value:floor_value_total, name:'楼层'});
+                        info.push({value:5.62744*status, name:'装修'});
+                        return info;
+                    }
+                    function predict_with_com(shi,ting,square,direction,floor_1,floor_2,floor_3,total_floor,status,near_sub,wuye_price,com_price) {
+                        var community_price =
+                                9.62242*shi
+                                +7.41824*ting
+                                +0.881907*square
+                                +6.38728*direction
+                                +1.62746*floor_1
+                                +1.63275*floor_2
+                                +1.51111*floor_3
+                                +4.38921*total_floor
+                                +4.95253*status
+                                +3.3474*near_sub
+                                +7.58454*wuye_price
+                                +0.00117258*com_price
+                                +61.0487;
+                        var info = [community_price];
+                        var floor_value_total = 1.62746*floor_1+1.63275*floor_2+1.51111*floor_3;
+                        info.push({value:10.6131*shi, name:'室'});
+                        info.push({value:8.19905*ting, name:'厅'});
+                        info.push({value:0.952084*square, name:'面积'});
+                        info.push({value:7.61856*direction, name:'朝向'});
+                        info.push({value:floor_value_total, name:'楼层'});
+                        info.push({value:5.62744*status, name:'装修'});
+                        info.push({value:3.3474*near_sub, name:'交通'});
+                        info.push({value:7.58454*wuye_price, name:'物业费'});
+                        info.push({value:0.00117258*com_price, name:'小区价格'});
+                        return info;
+                    }
+                    function predict() {
+                        error.style.display = "none";
+                        var feature_1 = document.getElementById("feature_1");
+                        var feature_2 = document.getElementById("feature_2");
+                        var feature_3 = document.getElementById("feature_3");
+                        var feature_4 = document.getElementById("feature_4");
+                        var feature_5 = document.getElementById("feature_5");
+                        var feature_6 = document.getElementById("feature_6");
+                        var feature_7 = document.getElementById("feature_7");
+                        var feature_8 = document.getElementById("feature_8");
+                        var shi = feature_1.value;
+                        var ting = feature_2.value;
+                        var square = feature_3.value;
+                        var direction = (feature_4.selectedIndex)+1;
+                        var floor_1 = 0;
+                        var floor_2 = 0;
+                        var floor_3 = 0;
+                        // 楼层：中低高
+                        if(feature_5.selectedIndex == 0){
+                            floor_1 = 1;
+                            floor_2 = 0;
+                            floor_3 = 0;
+                        }else if(feature_5.selectedIndex == 1){
+                            floor_1 = 0;
+                            floor_2 = 1;
+                            floor_3 = 0;
+                        }else {
+                            floor_1 = 0;
+                            floor_2 = 0;
+                            floor_3 = 1;
+                        }
+                        var total_floor = feature_6.value;
+                        var status = 0;
+                        // 庄装修状态
+                        if(feature_7.selectedIndex == 0){
+                            status = 2;
+                        }else if(feature_7.selectedIndex == 1){
+                            status = 1;
+                        }else {
+                            status = 0;
+                        }
+                        // 是否输入了小区
+                        if(feature_8.value.length != 0){
+                            var  community = feature_8.value;
+                        }else var community = null;
+                        var house_price = 0;
+                        var info = [];
+                        var xAna = ['室','厅','面积','朝向','楼层','装修'];
+                        // 没输入小区
+                        if (community == null){
+                            info = predict_without_com(shi,ting,square,direction,floor_1,floor_2,floor_3,total_floor,status);
+                            /* var no_community_price =
+                                10.6131*shi
+                                +8.19905*ting
+                                +0.952084*square
+                                +7.61856*direction
+                                +1.84588*floor_1
+                                +1.89299*floor_2
+                                +1.73131*floor_3
+                                +4.97279*total_floor
+                                +5.62744*status
+                                +68.9101;
+                            var floor_value_total = 1.84588*floor_1+1.89299*floor_2+1.73131*floor_3;
+
+                            var info = [
+                                {value:10.6131*shi, name:'室'},
+                                {value:8.19905*ting, name:'厅'},
+                                {value:0.952084*square, name:'面积'},
+                                {value:7.61856*direction, name:'朝向'},
+                                {value:floor_value_total, name:'楼层'},
+                                {value:5.62744*status, name:'装修'},
+                            ];*/
+                        }else {
+                            $.ajax({
+                            cache: false,
+                            type: "POST",
+                            url:"{% url 'illustration:price_predict' %}",
+                            data:{'community':community},
+                            async: true,
+                            {# 非表单但是要向后台提交数据时，在send前加入csrf_token #}
+                            beforeSend:function(xhr, settings){
+                                xhr.setRequestHeader("X-CSRFToken", "{{ csrf_token }}");
+                            },
+                            success: function(data) {
+                                data = JSON.parse(data);
+                                if(data.status == 0){
+                                    // 不存在该小区
+                                    error.style.display = "inline";
+                                    info = predict_without_com(shi,ting,square,direction,floor_1,floor_2,floor_3,total_floor,status);
+                                    price = info.shift();
+                                    show_echarts(Number(price).toFixed(0)+"万",info,xAna);
+                                }else if(data.status == 1){
+                                    // 存在小区，返回三个特征
+                                    near_sub = Number(data.near_sub);
+                                    wuye_price = Number(data.wuye_price);
+                                    com_price = Number(data.com_price);
+                                    info = predict_with_com(shi,ting,square,direction,floor_1,floor_2,floor_3,total_floor,status,near_sub,wuye_price,com_price);
+                                    xAna.push(['交通','物业费','小区价格']);
+                                    price = info.shift();
+                                    show_echarts(Number(price).toFixed(0)+"万",info,xAna);
+                                }
+                            },
+                        });
+                        }
+                        // alert(info[0]);
+                        price = info.shift();
+                        show_echarts(Number(price).toFixed(0)+"万",info,xAna);
+
+                    }
+                    function show_echarts(price,info,xAna) {
+                        /*if (myChart != null && myChart != "" && myChart != undefined) {
+                            myChart.dispose();
+                        }
+*/
+                        // 指定图表的配置项和数据
+                        var option = {
+                            title : {
+                                text: '',
+                                x:'center',
+                            },
+                            tooltip : {
+                                trigger: 'item',
+                                formatter: "{a} <br/>{b} : {c} ({d}%)"
+                            },
+                            legend: {
+                                //x : 'center',
+                                //y : 'bottom',
+                                data:xAna
+                            },
+                            toolbox: {
+                                show : true,
+                                y: 'bottom',
+                                feature : {
+                                    mark : {show: true},
+                                    dataView : {show: true, readOnly: false},
+                                    magicType : {
+                                        show: true,
+                                        type: ['pie', 'funnel']
+                                    },
+                                    restore : {show: true},
+                                    saveAsImage : {show: true}
+                                }
+                            },
+                            calculable : true,
+                            series : [
+                                {
+                                    name: '模拟贡献',
+                                    type:'pie',
+                                    radius : [30, 110],
+                                    center : ['50%', '50%'], // 图表中心位于容器的相对位置
+                                    roseType : 'area',	    // 面积模式
+                                    x: '50%',               // for funnel
+                                    max: 40,                // for funnel
+                                    sort : 'ascending',     // for funnel
+
+                                // color是组成扇形的颜色
+                                   color:['#c23531','#d48265','#2f4554','#ca8622','#6e7074','#97a0a8'],
+
+                                // data是组成玫瑰图的数据
+                                    data:info
+                                }
+                            ],
+                            // 中间填充文字
+                            graphic:{
+                                type:'text',
+                                left:'center',
+                                top:'center',
+                                z:2,
+                                style:{
+                                text:price,
+                                textAlign:'center',
+                                fill:'#000',
+                                font:'15px 微软雅黑'
+                                }
+                            }
+                };
+
+                        // 使用刚指定的配置项和数据显示图表。
+                        myChart.setOption(option);
+                    }
+
+                </script>
+            </li>
+        </ul>
+{#        <div style="float:left;width: 55%; min-height: 100px; background-color: yellow">#}
+{#            <table style="margin:20px auto" class="input_table">#}
+    {#            <caption >请输入各项数据：</caption>#}
+{#                    <tr >#}
+{#                      <th >房产面积</th>#}
+{#                      <td ><input class="part_input" type="text" value="80" id="square">平方米</td>#}
+{#                    </tr>#}
+{#                    <tr>#}
+{#                      <th>每平米价格</th>#}
+{#                      <td><input class="part_input" type="text" value="50000" id="per_square_price">元</td>#}
+{#                    </tr>#}
+{#                    <tr>#}
+{#                      <th>房屋出租收入</th>#}
+{#                      <td><input class="part_input" type="text" value="6000" id="rent_price">元/月</td>#}
+{#                    </tr>#}
+{#                    <tr>#}
+{#                      <th>租金投资年回报率</th>#}
+{#                      <td><input class="part_input" type="text" value="5" id="rent_percent">%</td>#}
+{#                    </tr>#}
+{#                    <tr>#}
+{#                      <th>装修及其他费用</th>#}
+{#                      <td><input class="part_input" type="text" value="60000" id="decoration_price">元</td>#}
+{#                    </tr>#}
+{#                    <tr>#}
+{#                      <th>房屋增值比率</th>#}
+{#                      <td><input class="part_input" type="text" value="0.2" id="incre_percent">%</td>#}
+{#                    </tr>#}
+{#                </table>#}
+{#            <div style="width: 600px; margin-top: 0; margin-bottom: 20px; margin-left: auto;margin-right: auto">#}
+{#                    <button class="whf" onclick="calcul()" style="outline:none; border-radius: 4px; margin-left: 185px; width: 200px; height: 50px; text-align: center; background-color: #323232; font-size: 20px;font-family: 'Microsoft YaHei UI'; color: white" >#}
+{#                        开始计算#}
+{#                    </button>#}
+{#                </div>#}
+{#        </div>#}
+{#        <div style="float:left; width: 45%; min-height: 100px; background-color: pink">#}
+
+        </div>
+    </div>
+<footer id="footer">
+<div class="site-footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 col-sm-6">
+                <section class="widget about-widget clearfix">
+                    <h4 class="title hide">About Us</h4>
+                    <a class="footer-logo" href="#"><img src="/static/assets/images/footer-logo.png" alt="Footer Logo"></a>
+                    <p>我们提供全面的历史成交信息查询、房价变化记录，您可以根据您的需要精确地查询信息、预测房价，满足您的购房、投资需求</p>
+                    <ul class="social-icons clearfix">
+                        <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                        <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+                        <li><a href="#"><i class="fa fa-pinterest"></i></a></li>
+                        <li><a href="#"><i class="fa fa-youtube-play"></i></a></li>
+                    </ul>
+                </section>
+            </div>
+            <div class="col-md-4 col-sm-6">
+                <section class="widget twitter-widget clearfix">
+                    <h4 class="title"></h4>
+                    <div id="twitter-feeds" class="clearfix"></div>
+                </section>
+            </div>
+            <div class="col-md-4 col-sm-6">
+                <section class="widget address-widget clearfix">
+                    <h4 class="title">平台支持中心</h4>
+                    <ul>
+                        <li><i class="fa fa-map-marker"></i> 上海市，杨浦区，国定路777号</li>
+                        <li><i class="fa fa-phone"></i>13167227669</li>
+						<li><i class="fa fa-envelope"></i>1098912568@qq.com</li>
+                        <li><i class="fa fa-clock-o"></i> 工作时间看心情</li>
+                    </ul>
+                </section>
+            </div>
+        </div>
+    </div>
+</div>
+    <div class="site-footer-bottom">
+        <div class="container">
+          <p class="copyright pull-left wow slideInRight">© 2018 Designed by <a href="#">The Expendables</a>. All rights reserved.</p>
+        </div>
+    </div>
+</footer>
+<a href="#top" id="scroll-top"><i class="fa fa-angle-up"></i></a>
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="{% static "assets/js/jquery.min.js"%}"></script>
+<script src="{% static "assets/js/theme.js"%}"></script>
+</body>
+</html>

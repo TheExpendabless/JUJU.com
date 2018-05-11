@@ -6,6 +6,7 @@
 #   * Remove `managed = False` lines if you wish to allow Django to create, modify, and delete the table
 # Feel free to rename the models, but don't rename db_table values or field names.
 from django.db import models
+from datetime import datetime
 from django.contrib.auth.models import AbstractUser
 
 
@@ -160,6 +161,7 @@ class newsFlash(models.Model):
     source=models.CharField(max_length=255)
     datetime=models.CharField(max_length=255)
     img=models.CharField(max_length=255,null=True)
+    img_name=models.CharField(max_length=255)
 
 
 class Houseinfo(models.Model):
@@ -220,6 +222,7 @@ class Sellinfo(models.Model):
     totalprice = models.CharField(db_column='totalPrice', max_length=255)  # Field name made lowercase.
     unitprice = models.CharField(db_column='unitPrice', max_length=255)  # Field name made lowercase.
     dealdate = models.CharField(max_length=255, blank=True, null=True)
+    district = models.CharField(max_length=255)
     updatedate = models.DateTimeField()
 
     class Meta:
@@ -230,3 +233,25 @@ class User(models.Model):
      username = models.CharField(max_length=50)
      password = models.CharField(max_length=50)
      email = models.EmailField(max_length=50)
+
+class UserProfile(AbstractUser):
+    mobile = models.CharField(max_length=11, verbose_name=u"手机号码", null= True, blank= True, default='')
+    class Meta:
+        verbose_name = "用户信息"
+        verbose_name_plural = verbose_name
+
+    def __unicode__(self):
+        return self.username
+
+class UserCollect(models.Model):
+
+    # 此处应设置外键与级联删除等，但是目前还未实现
+    # 未设置主键，自动生成了id作为主键，无实际含义
+    user = models.CharField(max_length=150,verbose_name=u"用户")
+    community_id = models.BigIntegerField(default=0,verbose_name=u"小区ID")
+    add_time = models.DateTimeField(default=datetime.now,verbose_name=u"收藏时间")
+
+    class Meta:
+        verbose_name = u"用户收藏"
+        verbose_name_plural = verbose_name
+

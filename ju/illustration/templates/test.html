@@ -1,0 +1,17 @@
+{% for article in articles %}
+                    <div class='col-md-4 col-sm-6 layout-item-wrap mix a1'>
+                        <article class="blog-post clearfix layout-item">
+                            <figure class="feature-image">
+                                <time class="updated btn btn-warning" datetime="2017-02-01T13:58Z">{{ article.datetime }}</time>
+                            </figure>
+                            <br>
+                            <br>
+                            <div class="post-contents clearfix">
+                                <h4 class="entry-title"><a href="{{ article.link }}">{{ article.title }}</a></h4>
+                                <div class="contents clearfix">
+                                    {{ article.img }}
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+                    {% endfor %}

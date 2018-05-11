@@ -22,83 +22,7 @@
     </div>
 </div>
 <header id="site-header">
-    <!--<div id="site-header-top">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-5">
-                    <div class="clearfix">
-                        <button class="btn btn-warning btn-lg header-btn visible-sm pull-right">List your Property for Free</button>
-                        <p class="timing-in-header">Open Hours: Monday to Saturday - 8am to 6pm</p>
-                    </div>
-                </div>
-                <div class="col-md-7">
-                    <div class="clearfix">
-                        <button class="btn btn-warning btn-lg header-btn hidden-sm">List your Property for Free</button>
-                        <div class="language-in-header">
-                            <i class="fa fa-globe"></i>
-                            <label for="language-dropdown"> Language:</label>
-                            <select name="currency" id="language-dropdown">
-                                <option value="ENG">ENG</option>
-                                <option value="AR">AR</option>
-                                <option value="UR">UR</option>
-                                <option value="NEO">NEO</option>
-                                <option value="AKA">AKA</option>
-                            </select>
-                        </div>
-                        <div class="currency-in-header">
-                            <i class="fa fa-flag"></i>
-                            <label for="currency-dropdown"> Currency: </label>
-                            <select name="currency" id="currency-dropdown">
-                                <option value="USD">USD</option>
-                                <option value="EUR">EUR</option>
-                                <option value="AOA">AOA</option>
-                                <option value="XCD">XCD</option>
-                                <option value="PKR">PKR</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>-->
-    <div class="container">
-        <div class="row">
-            <div class="col-md-3">
-                <figure id="site-logo">
-                    <a href="index.html"><img src="{% static "assets/images/logo.png"%}" alt="Logo"></a><!--logo要改！！！！！！！！！-->
-                </figure>
-            </div>
-            <div class="col-md-6 col-sm-8">
-                <nav id="site-nav" class="nav navbar-default">
-                    <ul class="nav navbar-nav">
-                        <li><a href="{% url 'illustration:home' %}">首页</a></li>
-                        <li><a href="{% url 'illustration:index' %}">房源信息</a>  <!--链接要改！！！！！！！！！！！！！--></li>
-                        <li><a href="single-property.html">房价预测</a></li>
-                        <li><a href="blog-grid.html">最新资讯</a></li>
-                        <li>
-                            <a href="contact.html">联系我们</a>
-                        </li>
-                        <li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true">用户 <span class="caret"></span></a>
-                            <ul class="dropdown-menu">
-                                <li><a href="#">登录</a></li>
-                                <li><a href="#">注册</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                </nav>
-            </div>
-            <div class="col-md-3 col-sm-4">
-                <div class="contact-in-header clearfix">
-                    <i class="fa fa-mobile"></i>
-                    <span>
-                        Call Us Now
-                        <br>
-                    <strong>111 222 333 444</strong>
-                    </span>
-                </div>
-            </div>
-        </div>
-    </div>
+    {% include "header.html" %}
 </header><!--头部-->
 <div id="site-banner" class="text-center clearfix">
     <div class="container">
@@ -119,7 +43,7 @@
                         <p>填写您的反馈意见和联系方式，我们将竭诚为您解决。<br>
                         若您有合作或投资意向也欢迎与我们联系！</p>
                     </div>
-                    <form action="form-handler.php" method="post" class="contact-form">
+                    <form action="#" method="post" class="contact-form">
                         <p class="form-author common">
                             <input id="author" name="name" type="text" placeholder="您的名字 *" aria-required="true" required="required">
                         </p>
@@ -174,17 +98,17 @@
     </div>
 </div>
       <script src="{% static "assets/js/jquery.min.js"%}"></script>
-<script src="{% static "assets/js/bootstrap.min.js"%}"></script>
-<script src="{% static "plugins/slick-nav/jquery.slicknav.min.js"%}"></script>
-<script src="{% static "plugins/slick/slick.min.js"%}"></script>
-<script src="{% static "plugins/jquery-ui/jquery-ui.min.js"%}"></script>
-<script src="{% static "plugins/tweetie/tweetie.js"%}"></script>
-<script src="{% static "plugins/forms/jquery.form.min.js"%}"></script>
-<script src="{% static "plugins/forms/jquery.validate.min.js"%}"></script>
-<script src="{% static "plugins/modernizr/modernizr.custom.js"%}"></script>
-<script src="{% static "plugins/wow/wow.min.js"%}"></script>
-<script src="{% static "plugins/zoom/zoom.js"%}"></script>
-<script src="{% static "plugins/mixitup/mixitup.min.js"%}"></script>
+{#<script src="{% static "assets/js/bootstrap.min.js"%}"></script>#}
+{#<script src="{% static "plugins/slick-nav/jquery.slicknav.min.js"%}"></script>#}
+{#<script src="{% static "plugins/slick/slick.min.js"%}"></script>#}
+{#<script src="{% static "plugins/jquery-ui/jquery-ui.min.js"%}"></script>#}
+{#<script src="{% static "plugins/tweetie/tweetie.js"%}"></script>#}
+{#<script src="{% static "plugins/forms/jquery.form.min.js"%}"></script>#}
+{#<script src="{% static "plugins/forms/jquery.validate.min.js"%}"></script>#}
+{#<script src="{% static "plugins/modernizr/modernizr.custom.js"%}"></script>#}
+{#<script src="{% static "plugins/wow/wow.min.js"%}"></script>#}
+{#<script src="{% static "plugins/zoom/zoom.js"%}"></script>#}
+{#<script src="{% static "plugins/mixitup/mixitup.min.js"%}"></script>#}
 <script src="{% static "assets/js/theme.js"%}"></script>
 </body>
 </html>

@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>JUJU.com</title>
+    <title>Title</title>
 </head>
 <body>
 <header id="site-header"class="navbar-fixed-top">
@@ -11,7 +11,7 @@
         <div class="row">
             <div class="col-md-3">
                 <figure id="site-logo">
-                    <a href="index.html"><img src="{% static "assets/images/logo.png"%}" alt="Logo"></a><!--logo要改！！！！！！！！！-->
+                    <a href="index.html"><img src="{% static "assets/images/logo.png"%}" alt="Logo" style="height: 65px"></a><!--logo要改！！！！！！！！！-->
                 </figure>
             </div>
             <div class="col-md-6 col-sm-8">
@@ -19,17 +19,37 @@
                     <ul class="nav navbar-nav">
                         <li><a href="{% url 'illustration:home' %}">首页</a></li>
                         <li><a href="{% url 'illustration:index' %}">房源信息</a>  <!--链接要改！！！！！！！！！！！！！--></li>
-                        <li><a href="single-property.html">房价预测</a></li>
+{#                        <li><a href="single-property.html">房价预测</a></li>#}
+                        <li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true">预测投资 <span class="caret"></span></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="{% url 'illustration:price_predict'%}">房价预测</a></li>
+                                    <li><a href="{% url 'illustration:invest_ass'%}">投资助手</a></li>
+                                    <li><a href="{% url 'illustration:buy_or_rent'%}">买or租</a></li>
+                                </ul>
+                        </li>
                         <li><a href="{% url 'illustration:news'%}">最新资讯</a></li>
                         <li>
                             <a href="{% url 'illustration:contact' %}">联系我们</a>
                         </li>
-                        <li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true">用户 <span class="caret"></span></a>
-                            <ul class="dropdown-menu">
-                                <li><a href="{% url 'illustration:login' %}">登录</a></li>
-                                <li><a href="{% url 'illustration:register' %}">注册</a></li>
-                            </ul>
-                        </li>
+
+                        {% if request.user.is_authenticated %}
+                            <li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true">{{ request.user.username }} <span class="caret"></span></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="{% url 'illustration:show_collect'%}">我的</a></li>
+                                    <li><a href="{% url 'illustration:settings'%}">设置</a></li>
+                                    <li><a href="{% url 'illustration:logout'%}">退出</a></li>
+                                </ul>
+                            </li>
+                        {% else %}
+                            <li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true">用户 <span class="caret"></span></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="{% url 'illustration:login'%}">登录</a></li>
+                                    <li><a href="{% url 'illustration:register'%}">注册</a></li>
+                                </ul>
+                            </li>
+                        {% endif %}
+
+
                     </ul>
                 </nav>
             </div>

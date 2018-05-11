@@ -1,0 +1,793 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>JUJU.com</title>
+
+    <!-- Styles -->
+
+
+    <!-- favicon and touch icons -->
+    <link rel="shortcut icon" href="{% static "assets/images/favicon.png"%}" >
+
+    <!-- Bootstrap -->
+    <link href="{% static "plugins/font-awesome/css/font-awesome.min.css"%}" rel="stylesheet">
+    <link href="{% static "plugins/slick/slick.css"%}" rel="stylesheet">
+    <link href="{% static "css/style.css" %}" rel="stylesheet">
+    <link href="{% static "plugins/slick-nav/slicknav.css"%}" rel="stylesheet">
+    <link href="{% static "plugins/wow/animate.css"%}" rel="stylesheet">
+    <link href="{% static "assets/css/bootstrap.css"%}" rel="stylesheet">
+    <link href="{% static "assets/css/theme.css"%}" rel="stylesheet">
+    <script type="text/javascript" src="{% static "js/echarts.js" %}"></script>
+
+    <style type="text/css">
+
+        .input_table tr{
+            height: 50px;
+        }
+
+        .input_table th{
+            font-weight: bold;
+            color: #1d1d1d;
+        }
+
+        .input_table td{
+            color: #1d1d1d;
+        }
+
+        .input_table td input{
+            margin-left: 50px;
+        }
+
+        .part_input{
+            background-color: white;
+            border-radius: 4px;
+            padding-left: 10px;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            outline: none;
+            border: 0px;
+            margin-right: 10px;
+            text-align: center;
+        }
+
+        .decline td div{
+            background-color: #f5f5f5;
+            font-size: 12px;
+            color: #ff493d;
+            border-radius: 0;
+            padding-top: 0;
+            padding-bottom: 0;
+            padding-right: 18px;
+            text-align: right;
+            outline: none;
+            border: 0px;
+            margin-right: 5px;
+        }
+
+        th{
+            font-size: 15px;
+        }
+        .result_input{
+            border: 0px;
+            outline: none;
+            padding: 0;
+            margin: 20px;
+            width: 100px;
+            background-color: #f5f5f5;
+            text-align: center;
+        }
+
+        .benxi_benjin_table{
+            border: 3px solid #151515;
+        }
+
+        table th{
+            padding-left: 30px;
+            padding-right: 30px;
+            padding-top: 15px;
+            padding-bottom: 15px;
+        }
+
+        table td{
+            text-align: left;
+            padding-left: 30px;
+            font-weight: bold;
+            font-size: 15px;
+        }
+
+        .benxi_benjin_table input{
+            text-align: right;
+            border: 0px;
+            outline: none;
+            padding: 0;
+            margin: 20px 20px 0 20px;
+            width: 100px;
+            background-color: #f5f5f5;
+        }
+
+    </style>
+
+</head>
+<body>
+    <div id="page-loader">
+        <div class="loaders">
+            <img src="{% static "assets/images/loader/3.gif"%}" alt="First Loader">
+            <img src="{% static "assets/images/loader/4.gif"%}" alt="First Loader">
+        </div>
+    </div>
+    <header id="site-header">
+        {% include "header.html" %}
+    </header>
+    <div id="site-banner" class="text-center clearfix">
+        <div class="container">
+            <h1 class="title">投资助手</h1>
+            <ol class="breadcrumb">
+                <li><a href="{% url 'illustration:home' %}">首页</a></li>
+                <li class="active">预测投资</li>
+            </ol>
+        </div>
+    </div>
+    <div id="blog-listing" class="grid-style">
+        <ul class="nav justify-content-center" style="text-align: center; padding-bottom: 40px">
+            <li class="nav-item" style=" display: inline-block;margin-right: 100px;">
+                <a href="#full" onclick="full_table_show()">
+                    <img src="{% static "images/full.png" %} " >
+                    <a class="nav-link" id="full" style=" font-weight: bold; font-size: 30px;color: #333" onclick="full_table_show()">全款购房</a>
+                </a>
+            </li>
+            <li class="nav-item" style="display: inline-block; margin-left: 100px;">
+                <a href="#part" onclick="part_table_show()">
+                    <img src="{% static "images/loan.png" %}" >
+                    <a class="nav-link" id="part" style=" font-weight: bold; font-size: 30px;color: #333" onclick="part_table_show()" >贷款购房</a>
+                </a>
+            </li>
+        </ul>
+
+        <a name="full">
+            <div id="ful_container" style="width: 600px;min-height: 200px; margin: 20px auto; display: none">
+                <table style="margin:20px auto" class="input_table">
+    {#            <caption >请输入各项数据：</caption>#}
+                    <tr >
+                      <th >房产面积</th>
+                      <td ><input class="part_input" type="text" value="80" id="square">平方米</td>
+                    </tr>
+                    <tr>
+                      <th>每平米价格</th>
+                      <td><input class="part_input" type="text" value="50000" id="per_square_price">元</td>
+                    </tr>
+                    <tr>
+                      <th>房屋出租收入</th>
+                      <td><input class="part_input" type="text" value="6000" id="rent_price">元/月</td>
+                    </tr>
+                    <tr>
+                      <th>租金投资年回报率</th>
+                      <td><input class="part_input" type="text" value="5" id="rent_percent">%</td>
+                    </tr>
+                    <tr>
+                      <th>装修及其他费用</th>
+                      <td><input class="part_input" type="text" value="60000" id="decoration_price">元</td>
+                    </tr>
+                    <tr>
+                      <th>房屋增值比率</th>
+                      <td><input class="part_input" type="text" value="0.2" id="incre_percent">%</td>
+                    </tr>
+                </table>
+                <div style="width: 600px; margin-top: 0; margin-bottom: 20px; margin-left: auto;margin-right: auto">
+                    <button class="whf" onclick="calcul()" style="outline:none; border-radius: 4px; margin-left: 185px; width: 200px; height: 50px; text-align: center; background-color: #323232; font-size: 20px;font-family: 'Microsoft YaHei UI'; color: white" >
+                        开始计算
+                    </button>
+                </div>
+            </div>
+
+            <div style="display: none;" id="result_area">
+                <table border="4"  style="margin: 0 auto; text-align: center; color: #323232;border-color: #323232">
+                    <tr style="background-color: #323232; color: white; font-family: 'Microsoft YaHei UI'">
+                        <th style="text-align: center;padding: 5px;">一年内出租月数</th>
+                        <th style="text-align: center;">6个月</th>
+                        <th style="text-align: center">7个月</th>
+                        <th style="text-align: center">8个月</th>
+                        <th style="text-align: center">9个月</th>
+                        <th style="text-align: center">10个月</th>
+                        <th style="text-align: center">11个月</th>
+                        <th style="text-align: center">12个月</th>
+                    </tr>
+                    <tr>
+                        <td>现金回报率</td>
+                        <td ><input readonly type="text" value="" id="cash_percent_6" class="result_input" ></td>
+                        <td ><input readonly type="text" value="" id="cash_percent_7" class="result_input" ></td>
+                        <td ><input readonly type="text" value="" id="cash_percent_8" class="result_input" ></td>
+                        <td ><input readonly type="text" value="" id="cash_percent_9" class="result_input" ></td>
+                        <td ><input readonly type="text" value="" id="cash_percent_10" class="result_input" ></td>
+                        <td ><input readonly type="text" value="" id="cash_percent_11" class="result_input" ></td>
+                        <td ><input readonly type="text" value="" id="cash_percent_12" class="result_input" ></td>
+                    </tr>
+                    <tr>
+                        <td>增值回报率</td>
+                        <td ><input readonly type="text" value="" id="incre_percent_6" class="result_input"></td>
+                        <td ><input readonly type="text" value="" id="incre_percent_7" class="result_input"></td>
+                        <td ><input readonly type="text" value="" id="incre_percent_8" class="result_input"></td>
+                        <td ><input readonly type="text" value="" id="incre_percent_9" class="result_input"></td>
+                        <td ><input readonly type="text" value="" id="incre_percent_10" class="result_input"></td>
+                        <td ><input readonly type="text" value="" id="incre_percent_11" class="result_input"></td>
+                        <td ><input readonly type="text" value="" id="incre_percent_12" class="result_input"></td>
+                    </tr>
+                </table>
+
+            </div>
+        </a>
+
+        <a name="part">
+            <div id="part_container" style="width: 600px;min-height: 200px; margin: 20px auto 40px auto; display: none">
+                <table style="margin:20px auto" class="input_table">
+    {#            <caption >请输入各项数据：</caption>#}
+                    <tr >
+                      <th >房产面积</th>
+                      <td ><input class="part_input" type="text" value="80" id="square_loan">平方米</td>
+                    </tr>
+                    <tr>
+                      <th>每平米价格</th>
+                      <td><input class="part_input" type="text" value="50000" id="per_square_price_loan">元</td>
+                    </tr>
+                    <tr>
+                      <th>房屋出租收入</th>
+                      <td><input class="part_input" type="text" value="6000" id="rent_price_loan">元/月</td>
+                    </tr>
+                    <tr>
+                      <th>装修及其他费用</th>
+                      <td><input class="part_input" type="text" value="60000" id="decoration_price_loan">元</td>
+                    </tr>
+                    <tr>
+                      <th>首付款比例</th>
+                      <td><input class="part_input" type="text" value="30" id="first_percent">%</td>
+                    </tr>
+                    <tr>
+                      <th>贷款月利率</th>
+                      <td><input class="part_input" type="text" value="0.2775" id="loan_rate">%</td>
+                    </tr>
+                    <tr>
+                      <th>还款年数</th>
+                      <td><input class="part_input" type="text" value="30" id="pay_year">年</td>
+                    </tr>
+                    <tr>
+                      <th>房屋增值比率</th>
+                      <td><input class="part_input" type="text" value="0.2" id="incre_percent_loan">%</td>
+                    </tr>
+                </table>
+                <div style="width: 600px; margin-top: 0; margin-bottom: 20px; margin-left: auto;margin-right: auto">
+                    <button class="whf" onclick="calcul_loan()" style="outline:none; border-radius: 4px; margin-left: 185px; width: 200px; height: 50px; text-align: center; background-color: #323232; font-size: 20px;font-family: 'Microsoft YaHei UI'; color: white" >
+                        开始计算
+                    </button>
+                </div>
+            </div>
+
+            <div style="width: 100%">
+                <div style="display: none;" id="result_area_loan">
+                    <table class="benxi_benjin_table" style="margin: 0 auto;  color: #323232;border-color: #323232">
+                        <tr style="background-color: #323232; color: white; font-family: 'Microsoft YaHei UI';">
+                            <th style="text-align: center;">类型</th>
+                            <th style="text-align: center;">等额本息还款</th>
+                            <th style="text-align: center;">等额本金还款</th>
+                        </tr>
+                        <tr>
+                            <td ><input readonly type="text" value="月供" style="text-align: left;margin-left: 0"></td>
+                            <td ><input readonly type="text" value="" id="t11"  ></td>
+                            <td ><input readonly type="text" value="" id="t12"  ></td>
+                        </tr>
+                        <tr style="height: 20px" class="decline">
+                            <td></td>
+                            <td ></td>
+                            <td ><div readonly type="text" id="decline_yuegong">每月递减20元</div></td>
+                        </tr>
+                        <tr>
+                            <td ><input readonly type="text" value="每月本金" style="text-align: left;margin-left: 0"></td>
+                            <td ><input readonly type="text" value="" id="t21" ></td>
+                            <td ><input readonly type="text" value="" id="t22" ></td>
+                        </tr>
+                        <tr style="height: 20px" class="decline">
+                            <td></td>
+                            <td ><div readonly type="text" id="decline_benjin">每月递减10元</div></td>
+                            <td ></td>
+                        </tr>
+                        <tr>
+                            <td ><input readonly type="text" value="还款月数" style="text-align: left;margin-left: 0"></td>
+                            <td ><input readonly type="text" value="" id="t31" ></td>
+                            <td ><input readonly type="text" value="" id="t32" ></td>
+                        </tr>
+                        <tr>
+                            <td ><input readonly type="text" value="总利息" style="text-align: left;margin-left: 0"></td>
+                            <td ><input readonly type="text" value="" id="t41" ></td>
+                            <td ><input readonly type="text" value="" id="t42" ></td>
+                        </tr>
+                        <tr>
+                            <td >本息合计</td>
+                            <td ><input readonly type="text" value="" id="t51" style="padding-bottom: 20px"></td>
+                            <td ><input readonly type="text" value="" id="t52" style="padding-bottom: 20px"></td>
+                        </tr>
+                    </table>
+
+                </div>
+
+                <div style="width:900px; min-height: 0; margin: 30px auto">
+                    <div id="chart-container-invest" style="display:inline;width: 900px;height:600px;">
+
+                    </div>
+                </div>
+
+            </div>
+        </a>
+    </div>
+
+
+
+<footer id="footer">
+<div class="site-footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 col-sm-6">
+                <section class="widget about-widget clearfix">
+                    <h4 class="title hide">About Us</h4>
+                    <a class="footer-logo" href="#"><img src="/static/assets/images/footer-logo.png" alt="Footer Logo"></a>
+                    <p>我们提供全面的历史成交信息查询、房价变化记录，您可以根据您的需要精确地查询信息、预测房价，满足您的购房、投资需求</p>
+                    <ul class="social-icons clearfix">
+                        <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                        <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+                        <li><a href="#"><i class="fa fa-pinterest"></i></a></li>
+                        <li><a href="#"><i class="fa fa-youtube-play"></i></a></li>
+                    </ul>
+                </section>
+            </div>
+            <div class="col-md-4 col-sm-6">
+                <section class="widget twitter-widget clearfix">
+                    <h4 class="title"></h4>
+                    <div id="twitter-feeds" class="clearfix"></div>
+                </section>
+            </div>
+            <div class="col-md-4 col-sm-6">
+                <section class="widget address-widget clearfix">
+                    <h4 class="title">平台支持中心</h4>
+                    <ul>
+                        <li><i class="fa fa-map-marker"></i> 上海市，杨浦区，国定路777号</li>
+                        <li><i class="fa fa-phone"></i>13167227669</li>
+						<li><i class="fa fa-envelope"></i>1098912568@qq.com</li>
+                        <li><i class="fa fa-clock-o"></i> 工作时间看心情</li>
+                    </ul>
+                </section>
+            </div>
+        </div>
+    </div>
+</div>
+    <div class="site-footer-bottom">
+        <div class="container">
+          <p class="copyright pull-left wow slideInRight">© 2018 Designed by <a href="#">The Expendables</a>. All rights reserved.</p>
+        </div>
+    </div>
+</footer>
+<a href="#top" id="scroll-top"><i class="fa fa-angle-up"></i></a>
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="{% static "assets/js/jquery.min.js"%}"></script>
+<script src="{% static "assets/js/theme.js"%}"></script>
+</body>
+</html>
+<script type="text/javascript" >
+
+
+
+    // var myChart = echarts.init(document.getElementById('chart-container-invest'));
+    var full = document.getElementById("ful_container");
+    var full_result = document.getElementById("result_area");
+    var part = document.getElementById("part_container");
+    var part_chart = document.getElementById("chart-container-invest");
+    var part_result = document.getElementById("result_area_loan");
+
+    //var line = document.getElementById("show_line");
+    //var stack = document.getElementById("show_stack");
+    //全款用户输入的表格
+    function full_table_show() {
+        part.style.display = "none";
+        //line.style.display = "none";
+        //stack.style.display = "none";
+        part_chart.style.display = "none";
+        part_result.style.display = "none";
+        full.style.display = "inline";
+    }
+    // 贷款用户输入的表格
+    function part_table_show() {
+        full.style.display = "none";
+        full_result.style.display = "none";
+        part.style.display = "inline";
+    }
+    // 全款购房收益率计算与表格展示
+    function calcul() {
+        var s = document.getElementById("square").value;
+        s = Number(s);
+        var p = document.getElementById("per_square_price").value;
+        p = Number(p);
+        var r = document.getElementById("rent_percent").value;
+        r = Number(r)/100;
+        var m = document.getElementById("decoration_price").value;
+        m = Number(m);
+        var l = document.getElementById("rent_price").value;
+        l = Number(l);
+        var n = document.getElementById("incre_percent").value;
+        n = Number(n);
+        for(var t = 6; t < 13; t++){
+            var x = (l*t+l*t*t/12*r)/(s*p+m)*100;
+            var y = (l*t/(s*p+m)+n/100)*100;
+            var id_x = "cash_percent_" + String(t);
+            var id_y = "incre_percent_" + String(t);
+            document.getElementById(id_x).value = String(x.toFixed(4)) + "%";
+            document.getElementById(id_y).value = String(y.toFixed(4)) + "%";
+        }
+        document.getElementById("result_area").style.display = "inline" ;
+    }
+    // 贷款购房收益率与还款计算与图表展示
+    function calcul_loan() {
+        // 显示两个图表切换的分页栏
+        /*line.style.display = "inline";
+        stack.style.display = "inline";*/
+        // 折线图和柱状图
+        part_result.style.display = "inline";
+        part_chart.style.display = "inline";
+        //part_chart_loan.style.display = "inline";
+        // 变量依次为：面积 每平米价格 装修及其他费用 月租金 首付比例 银行月利率 还款年数
+        var s = document.getElementById("square_loan").value;
+        s = parseInt(s);
+        var p = document.getElementById("per_square_price_loan").value;
+        p = Number(p);
+        var m = document.getElementById("decoration_price_loan").value;
+        m = Number(m);
+        var l = document.getElementById("rent_price_loan").value;
+        l = Number(l);
+        var x = document.getElementById("first_percent").value;
+        x = Number(x)/100;
+        var r = document.getElementById("loan_rate").value;
+        r = Number(r)/100;
+        var n = document.getElementById("pay_year").value;
+        n = Number(n);
+        var q = document.getElementById("incre_percent_loan").value;
+        q = Number(q);
+        // 每年出租月数假设为12
+        var t = 12;
+
+        var t11 = document.getElementById("t11");
+        var t12 = document.getElementById("t12");
+        var t21 = document.getElementById("t21");
+        var t22 = document.getElementById("t22");
+        var t31 = document.getElementById("t31");
+        var t32 = document.getElementById("t32");
+        var t41 = document.getElementById("t41");
+        var t42 = document.getElementById("t42");
+        var t51 = document.getElementById("t51");
+        var t52 = document.getElementById("t52");
+        var decline_12 = document.getElementById("decline_yuegong");
+        var decline_21 = document.getElementById("decline_benjin");
+
+
+
+
+        /* ——————等额本息—————— */
+        /* 回报率列表：invest_percent_list
+         * 每月还款额：bx
+          * 每月本金列表：bn_list
+          * 总利息：total_bi_benxi
+          * 本息合计： repay_benxi */
+        {
+            // 每月还款额
+            var bx = s*p*(1-x)*r*Math.pow(1+r,12*n)/(Math.pow(1+r,12*n)-1);
+            //存储第n个月本金的列表
+            var bn_list = new Array();
+            // 总利息
+            var total_bi_benxi = 0;
+            // 本息合计
+            var repay_benxi = 0;
+            // 存储投资回报率的列表
+            invest_percent_list = new Array();
+            for(var year = 1; year <= n; year++){
+
+                var year_bt_total = 0;
+                for(var month = 1; month < 13; month++){
+
+                    total_month = 12*(year-1) + month;
+                    //第n个月的本金
+                    bn = s*p*(1-x)*r*Math.pow(1+r,total_month-1)/(Math.pow(1+r,12*n)-1);
+                    bn_list.push(bn.toFixed(2));
+                    year_bt_total = year_bt_total + bn;
+                }
+                // 第i年的投资回报率
+                invest_percent = (l*t - (12*bx-year_bt_total))/(s*p+m+year_bt_total)+q;
+                invest_percent_list.push(invest_percent);
+            }
+            repay_benxi = (bx*12*n).toFixed(2);
+            total_bi_benxi = (repay_benxi-s*p*(1-x)).toFixed(2);
+        }
+
+
+        /* ——————等额本金—————— */
+        /* 回报率列表：invest_percent_list_part
+         * 每月还款额列表： bx_list
+         * 本息合计（总还款额）：repay_benjin
+         * 每月利息列表：bi_list
+         * 总利息：total_bi_benjin
+         * 每月本金：bn */
+        {
+            // 每月本金
+            bn = (s*p*(1-x)/(12*n)).toFixed(2);
+
+            // 每月还款额列表
+            var bx_list = new Array();
+
+            // 第n个月利息 bi 的列表
+            var bi_list = new Array();
+
+            // 本息合计
+            var repay_benjin = 0;
+
+            // 总利息
+            var total_bi_benjin = 0;
+
+            // 存储投资回报率的列表
+            invest_percent_list_part = new Array();
+
+            for(var year = 1; year <= n; year++){
+
+                //  存储一年的利息
+                var year_bi_total = 0;
+
+                for(var month = 1; month < 13; month++){
+
+                    total_month = 12*(year-1) + month;
+                    // 第n个月的利息
+                    bi = r*(s*p*(1-x)-s*p*(1-x)*(total_month-1)/(12*n));
+                    bi_list.push(bi.toFixed(2));
+                    year_bi_total = year_bi_total + bi;
+                }
+                // 第i年的投资回报率
+                invest_percent = (l*t - year_bi_total)/(s*p+m+s*p/n)+q;
+                invest_percent_list_part.push(invest_percent);
+            }
+            var temp_bx = 0;
+            for(var j = 0; j< bi_list.length; j ++){
+                temp_bx = Number(bi_list[j]) + Number(bn);
+                bx_list.push(temp_bx.toFixed(2));
+                repay_benjin = repay_benjin + temp_bx;
+            }
+            total_bi_benjin = Number(repay_benjin)-Number(bn)*12*n;
+        }
+
+        t11.value = bx.toFixed(2)+"元";
+        t12.value = bx_list[0]+"元";
+        t21.value = bn_list[0]+"元";
+        t22.value = bn+"元";
+        t31.value = 12*n+"个月";
+        t32.value = 12*n+"个月";
+        t41.value = total_bi_benxi+"元";
+        t42.value = total_bi_benjin.toFixed(2)+"元";
+        t51.value = repay_benxi+"元";
+        t52.value = repay_benjin.toFixed(2)+"元";
+        decline_12.innerText = "每月递减"+String((bx_list[0]-bx_list[1]).toFixed(2))+"元";
+        decline_21.innerText = "每月递增"+String((bn_list[1]-bn_list[0]).toFixed(2))+"元";
+        // document.getElementById("chart-container-invest").innerText = String(invest_percent_list.join()) ;
+        init_and_show_charts(n,invest_percent_list,invest_percent_list_part);
+        {#init_and_show_loan_chart(n,bx,bx_list,bn,bn_list);#}
+        {#part_chart.style.display = "none";#}
+    }
+
+        // 折线图与柱状图的导航条 ：显示选中折线图
+    function show_line() {
+        line.style.backgroundColor = "#323232";
+        line.style.color = "white";
+        stack.style.backgroundColor = "#f5f5f5";
+        stack.style.color = "#323232";
+    }
+    // 折线图与柱状图的导航条 ：显示选中柱状图
+    function show_stack() {
+        stack.style.backgroundColor = "#323232";
+        stack.style.color = "white";
+        line.style.backgroundColor = "#f5f5f5";
+        line.style.color = "#323232";
+    }
+
+    function init_and_show_loan_chart(n,bx,bx_list,bn,bn_list) {
+        //var myChart = echarts.init(document.getElementById('chart-container-loan'));
+        // part_chart.style.display = "none";
+        // part_chart_loan.style.display = "inline";
+
+        var myChart = echarts.init(document.getElementById('chart-container-loan'));
+
+        // 指定图表的配置项和数据
+        var xAxisData = [];
+        var data1 = [];
+        var data2 = bx_list;
+        var data3 = [];
+        var data4 = bn_list;
+
+        var now = new Date();
+        var year_base = now.getFullYear();
+        var month_base = now.getMonth() + 1;
+        for(var left_month = month_base+1;left_month<=12;left_month++){
+            xAxisData.push([year_base,left_month].join('/'));
+        }
+        for (var i = 1; i < n; i++ ){
+            for (var j = 1; j < 13; j++){
+                xAxisData.push([year_base+i,j].join('/'));
+            }
+        }
+        for (var right_month = 1; right_month < month_base+1; right_month++){
+            xAxisData.push([year_base+n,right_month].join('/n'))
+        }
+
+        for(var data_num = 0; data_num<xAxisData.length;data_num++){
+            data1.push(bx);
+            data3.push(bn);
+        }
+        var option = {
+            tooltip: {
+                trigger: 'axis',
+                position: function (pt) {
+                    return [pt[0], '10%'];
+                }
+            },
+            title: {
+                left: 'center',
+                text: '大数据量面积图',
+            },
+            toolbox: {
+                feature: {
+                    dataZoom: {
+                        yAxisIndex: 'none'
+                    },
+                    restore: {},
+                    saveAsImage: {}
+                }
+            },
+            xAxis: {
+                type: 'category',
+                boundaryGap: false,
+                data: xAxisData
+            },
+            yAxis: {
+                type: 'value',
+                boundaryGap: [0, '100%']
+            },
+            dataZoom: [{
+                type: 'inside',
+                start: 0,
+                end: 10
+            }, {
+                start: 0,
+                end: 10,
+                handleIcon: 'M10.7,11.9v-1.3H9.3v1.3c-4.9,0.3-8.8,4.4-8.8,9.4c0,5,3.9,9.1,8.8,9.4v1.3h1.3v-1.3c4.9-0.3,8.8-4.4,8.8-9.4C19.5,16.3,15.6,12.2,10.7,11.9z M13.3,24.4H6.7V23h6.6V24.4z M13.3,19.6H6.7v-1.4h6.6V19.6z',
+                handleSize: '80%',
+                handleStyle: {
+                    color: '#fff',
+                    shadowBlur: 3,
+                    shadowColor: 'rgba(0, 0, 0, 0.6)',
+                    shadowOffsetX: 2,
+                    shadowOffsetY: 2
+                }
+            }],
+            series: [
+                {
+                    name:'模拟数据',
+                    type:'line',
+                    smooth:true,
+                    symbol: 'none',
+                    sampling: 'average',
+                    itemStyle: {
+                        normal: {
+                            color: 'rgb(255, 70, 131)'
+                        }
+                    },
+                    areaStyle: {
+                        normal: {
+                            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                                offset: 0,
+                                color: 'rgb(255, 158, 68)'
+                            }, {
+                                offset: 1,
+                                color: 'rgb(255, 70, 131)'
+                            }])
+                        }
+                    },
+                    data: data2
+                }
+            ]
+        };
+
+
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+    }
+    
+    function init_and_show_charts(n,data,data_part) {
+        part_chart.style.width = "900px";
+        part_chart.style.height = "600px";
+        var myChart = echarts.init(document.getElementById('chart-container-invest'));
+        var base = +new Date(2018, 5, 3);
+        var oneDay = 24 * 3600 * 1000;
+        var date = [];
+
+        for (var i = 1; i <= n; i++) {
+            {#var now = new Date(base += oneDay);#}
+            date.push(2017+i);
+            }
+
+        var option = {
+            title: {
+                text: ''
+            },
+            tooltip: {
+                trigger: 'axis'
+            },
+            legend: {
+                data:['等额本息','等额本金']
+            },
+            grid: {
+                left: '3%',
+                right: '4%',
+                bottom: '3%',
+                containLabel: true
+            },
+            toolbox: {
+                feature: {
+                    saveAsImage: {}
+                }
+            },
+            xAxis: {
+                type: 'category',
+                boundaryGap: false,
+                data: date
+            },
+            yAxis: {
+                type: 'value',
+                min: function (value) {
+                    return 0.1
+                },
+                max:function (value) {
+                    return (value.max + 0.05).toFixed(2)
+                }
+            },
+            series: [
+                {
+                    name:'等额本息',
+                    type:'line',
+                    stack: '总量',
+                    data:data
+                },
+                {
+                    name:'等额本金',
+                    type:'line',
+                    stack: '总量',
+                    data:data_part
+                }
+            ]
+        };
+
+
+
+        myChart.setOption(option);
+    }
+
+</script>
+
+
+
+
+{#                <div id="line_stack_contanier" style="width: 600px; height: 50px; margin-top: 0; margin-left: auto;margin-right: auto; text-align: center">#}
+{#                    <button class="whf" id="show_line" onclick="show_line()" style="display:none;outline:none; border: none;border-radius: 3px; float:left;width: 285px; height: 50px; text-align: center; background-color: #323232; font-size: 20px;font-family: 'Microsoft YaHei UI'; color: white">#}
+{#                        收益率折线图#}
+{#                    </button>#}
+{#                    <button class="whf" id="show_stack" onclick="show_stack();init_and_show_loan_chart()" style="display:none;outline:none; border:none;border-radius: 3px;float:left; width: 285px; height: 50px; text-align: center;background-color: #f5f5f5; font-size: 20px;font-family: 'Microsoft YaHei UI'; color: #323232" >#}
+{#                        还款金额柱状图#}
+{#                    </button>#}
+{##}
+{#                </div>#}
+{#                <div style="width: 600px; height: 5px; margin: 0 auto; text-align: center">#}
+{#                    <div style="width: 570px;height: 2px;background-color: #323232"></div>#}
+{##}
+{#                </div>#}

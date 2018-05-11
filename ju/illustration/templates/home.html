@@ -85,7 +85,7 @@
       </div>
       <div class="col-md-2 col-md-offset-2">
         <div class="media">
-          <div class="media-left"> <a href="#"> <img class="img-responsive img-rounded" src="{% static "images/智能.png"%}" alt="placeholder image">
+          <div class="media-left"> <a href="{% url 'illustration:price_predict'%}"> <img class="img-responsive img-rounded" src="{% static "images/智能.png"%}" alt="placeholder image">
           <h4 style="text-align: center;">房价预测</h4></a></div>
           <!--<div class="media-body">
             <h4 class="media-heading">Heading 2</h4>
@@ -94,8 +94,8 @@
       </div>
       <div class="col-md-2 col-md-offset-2">
         <div class="media">
-              <div class="media-left"> <a href="{% url 'illustration:news'%}"> <img class="img-responsive img-rounded" src="{% static "images/资讯.png"%}" alt="placeholder image">
-              <h4 style="text-align: center;">最新资讯</h4></a></div>
+              <div class="media-left"> <a href="{% url 'illustration:invest_ass'%}"> <img class="img-responsive img-rounded" src="{% static "images/资讯.png"%}" alt="placeholder image">
+              <h4 style="text-align: center;">投资助手</h4></a></div>
       <!--<div class="media-body">
             <h4 class="media-heading">Heading 3</h4>
             Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis, id, aut, officiis laboriosam a vero illo dolor asperiores provident quibusdam praesentium ipsum!</div>-->
@@ -115,34 +115,15 @@
           ">查看更多</a></p>
        </div>
     </header>
-     <div class="widget-post">
-                <div class="row">
-                    <div>
-                        <p class="entry-title",sytle="text-align:center"><a href="single.html">Skills That You Can Learn In The Real Estate Market</a></p>
-                    </div>
+    {% for news in newslist %}
+        <div class="widget-post">
+            <div class="row">
+                <div>
+                    <p class="entry-title",sytle="text-align:center"><a href="{{ news.link }}" target="_blank">{{ news.title }}</a></p>
                 </div>
             </div>
-	 <div class="widget-post">
-                <div class="row">
-                    <div>
-                        <p class="entry-title",sytle="text-align:center"><a href="single.html">Skills That You Can Learn In The Real Estate Market</a></p>
-                    </div>
-                </div>
-            </div>
-     <div class="widget-post">
-                <div class="row">
-                    <div>
-                        <p class="entry-title",sytle="text-align:center"><a href="single.html">Skills That You Can Learn In The Real Estate Market</a></p>
-                    </div>
-                </div>
-            </div>
-     <div class="widget-post">
-                <div class="row">
-                    <div>
-                        <p class="entry-title",sytle="text-align:center"><a href="single.html">Skills That You Can Learn In The Real Estate Market</a></p>
-                    </div>
-                </div>
-            </div>
+        </div>
+    {% endfor %}
 	</section>
 
 <footer id="footer">

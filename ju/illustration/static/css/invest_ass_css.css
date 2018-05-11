@@ -1,0 +1,43 @@
+
+.result_input{
+    border: 0px;
+    outline: none;
+    min-width: 60px;
+    background-color: #f5f5f5;
+}
+
+th{
+    font-size: 15px;
+}
+
+/*.itemTitle{*/
+    /*vertical-align: top;*/
+    /*width: 122px;*/
+    /*padding: 15px 0;*/
+    /*font-weight: 700;*/
+/*}*/
+
+/*.selectItem{*/
+    /*width: 435px;*/
+    /*border-radius: 2px;*/
+    /*position: relative;*/
+    /*padding: 15px;*/
+    /*background-color: #f5f5f6;*/
+/*}*/
+/*.itemTitle, .selectItem {*/
+    /*display: inline-block;*/
+    /*line-height: 1.2;*/
+    /*color: #333;*/
+    /*font-size: 14px;*/
+/*}*/
+
+/*.selectItem .selectItemOptions {*/
+    /*display: none;*/
+    /*background-color: #fff;*/
+    /*z-index: 1;*/
+    /*position: absolute;*/
+    /*left: 0;*/
+    /*top: 46px;*/
+    /*width: 100%;*/
+    /*border: 1px solid #d6d6d6;*/
+/*}*/
